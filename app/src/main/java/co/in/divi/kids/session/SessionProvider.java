@@ -63,4 +63,13 @@ public class SessionProvider {
         }
     }
 
+    public void addSessionChangeListener(SessionChangeListener listener) {
+        if (!listeners.contains(listener))
+            listeners.add(listener);
+    }
+
+    public void removeSessionChangeListener(SessionChangeListener listener) {
+        if (listeners.contains(listener))
+            listeners.remove(listener);
+    }
 }

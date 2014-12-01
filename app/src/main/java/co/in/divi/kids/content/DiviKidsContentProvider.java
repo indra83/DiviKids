@@ -20,6 +20,12 @@ public class DiviKidsContentProvider {
         this.context = context;
     }
 
+    public static DiviKidsContentProvider getInstance(Context context) {
+        if (instance == null)
+            instance = new DiviKidsContentProvider(context);
+        return instance;
+    }
+
     private Context context;
 
     public Content getContent() {

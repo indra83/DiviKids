@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import co.in.divi.kids.session.Session;
 import co.in.divi.kids.session.SessionProvider;
+import co.in.divi.kids.util.Util;
 
 
 public class HomeActivity extends Activity implements SessionProvider.SessionChangeListener {
@@ -36,18 +37,33 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        sessionProvider.addSessionChangeListener(this);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         checkSession();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        sessionProvider.removeSessionChangeListener(this);
+    }
+
     private void checkSession() {
         if (sessionProvider.isSessionActive()) {
             finish();
+            Util.enableLauncher(this);
             Intent startMain = new Intent(Intent.ACTION_MAIN);
             startMain.addCategory(Intent.CATEGORY_HOME);
             startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startMain);
+        } else {
+            Util.disableLauncher(this);
         }
     }
 
