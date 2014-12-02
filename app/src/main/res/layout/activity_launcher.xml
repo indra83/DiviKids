@@ -14,8 +14,7 @@
         android:id="@+id/pager"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/title"
-        android:visibility="gone">
+        android:layout_below="@id/title">
 
         <android.support.v4.view.PagerTabStrip
             android:layout_width="wrap_content"
