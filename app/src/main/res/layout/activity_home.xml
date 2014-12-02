@@ -26,4 +26,14 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Setup Apps"
+        android:id="@+id/apps_setup_button"
+        android:padding="10dp"
+        android:textSize="18dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/setupText" />
 </RelativeLayout>

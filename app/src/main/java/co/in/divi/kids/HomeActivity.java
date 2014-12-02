@@ -43,6 +43,14 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
                 sessionProvider.setSession(new Session(30000, content.categories[0].subCategories[0].apps, content.categories[0].subCategories[0].videos));
             }
         });
+
+        findViewById(R.id.apps_setup_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent startAppsSetup = new Intent(HomeActivity.this, AppsSetupActivity.class);
+                startActivity(startAppsSetup);
+            }
+        });
     }
 
     @Override
