@@ -85,7 +85,7 @@ public class AppsFragment extends Fragment {
             try {
                 iconView.setImageDrawable(getActivity().getPackageManager().getApplicationIcon(app.packageName));
             } catch (PackageManager.NameNotFoundException e) {
-                Log.w(TAG, "Error fetching app info", e);
+                Log.w(TAG, "Error fetching app info " + app.name);
             }
             return convertView;
         }

@@ -2,8 +2,10 @@ package co.in.divi.kids;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -134,7 +136,7 @@ public class AppsSetupActivity extends Activity {
 
         @Override
         public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-            Content.App app = (Content.App) getChild(groupPosition, childPosition);
+            final Content.App app = (Content.App) getChild(groupPosition, childPosition);
             if (convertView == null) {
                 convertView = inflater.inflate(R.layout.item_setup_app, parent, false);
             }
@@ -151,8 +153,20 @@ public class AppsSetupActivity extends Activity {
                     Log.w(TAG, "Error fetching app info", e);
                 }
             } else {
+                iconView.setImageResource(R.drawable.ic_launcher);
                 installButton.setText("Install");
                 installButton.setEnabled(true);
+                installButton.setOnClickListener(new View.OnClickListener() {
+                                                     @Override
+                                                     public void onClick(View view) {
+                                                         String appUrl = "market://details?id=" + app.packageName;
+                                                         Intent intent = new Intent(Intent.ACTION_VIEW);
+                                                         intent.setData(Uri.parse(appUrl));
+                                                         startActivity(intent);
+                                                     }
+                                                 }
+
+                );
             }
             return convertView;
         }

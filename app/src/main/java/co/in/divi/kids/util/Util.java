@@ -38,4 +38,8 @@ public final class Util {
         ComponentName cN = new ComponentName(context, LauncherActivity.class);
         p.setComponentEnabledSetting(cN, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
     }
+
+    public static long getTimestampMillis() {
+        return System.currentTimeMillis();
+    }
 }

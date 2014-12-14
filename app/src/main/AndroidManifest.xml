@@ -22,7 +22,8 @@
 
         <activity
             android:name="co.in.divi.kids.LauncherActivity"
-            android:enabled="false">
+            android:enabled="false"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

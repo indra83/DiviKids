@@ -36,4 +36,64 @@
         android:textSize="18dp"
         android:layout_alignParentRight="true"
         android:layout_below="@id/setupText" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/categoryLabel"
+        android:layout_below="@id/apps_setup_button"
+        android:text="2. Choose content" />
+
+    <RadioGroup
+        android:id="@+id/selector_content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/categoryLabel"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radio_random"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/random" />
+
+        <RadioButton
+            android:id="@+id/radio_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/category" />
+
+        <RadioButton
+            android:id="@+id/radio_focus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/focus" />
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/duration_label"
+        android:layout_below="@id/selector_content"
+        android:text="3. Session timeout..." />
+
+    <SeekBar
+        android:id="@+id/duration_selector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/duration_label"
+        android:layout_marginTop="26dp"
+        android:max="3" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/pinLabel"
+        android:layout_below="@id/duration_selector"
+        android:text="4. Confirm unlock pin..." />
+
+
 </RelativeLayout>

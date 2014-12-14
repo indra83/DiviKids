@@ -67,6 +67,72 @@
           ]
         }
       ]
+    },
+    {
+      "id": "2",
+      "name": "Earth Science",
+      "shortDesc": "Earth stuff",
+      "longDesc": "longDesclongDesclongDesclongDesc\nlongDesclongDesclongDesc\nlongDesc",
+      "subCategories": [
+        {
+          "id": "1",
+          "name": "Earth",
+          "desc": "Content from blah blah ",
+          "apps": [
+            {
+              "packageName": "ru.gonorovsky.kv.livewall.earthhd",
+              "name": "Earth App 1"
+            },
+            {
+              "packageName": "air.gov.nasa.ksc.RocketScience",
+              "name": "Rocket Science 101"
+            },
+            {
+              "packageName": "gov.nasa.jpl.spaceplaceprime",
+              "name": "Space Place Prime"
+            }
+          ],
+          "videos": [
+            {
+              "youtubeId": "zsJpUCWfyPE",
+              "name": "STS-129 HD Launch"
+            },
+            {
+              "youtubeId": "aoNHhTyaxJg",
+              "name": "Endeavour's External Tank Falls Away"
+            },
+            {
+              "youtubeId": "bJla-JsVNpw",
+              "name": "New Views of Endeavour's Launch from Booster Cameras"
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "name": "Earth 2",
+          "desc": "blh earth 2 blah",
+          "apps": [
+            {
+              "packageName": "com.jmsys.earth3d",
+              "name": "Earth 2.1"
+            },
+            {
+              "packageName": "com.planet.earth",
+              "name": "Earth 2.2"
+            }
+          ],
+          "videos": [
+            {
+              "youtubeId": "zsJpUCWfyPE",
+              "name": "STS-129 HD Launch"
+            },
+            {
+              "youtubeId": "aoNHhTyaxJg",
+              "name": "Endeavour's External Tank Falls Away"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

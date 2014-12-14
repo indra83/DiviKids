@@ -10,8 +10,8 @@ public class Content {
 
     public Category[] categories;
 
-    public class Category {
-        public int id;
+    public static class Category {
+        public String id;
         public String name;
         public String shortDesc;
         public String longDesc;
@@ -19,7 +19,7 @@ public class Content {
         public SubCategory[] subCategories;
     }
 
-    public class SubCategory {
+    public static class SubCategory {
         public String id;
         public String name;
         public String desc;
@@ -28,12 +28,12 @@ public class Content {
         public Video[] videos;
     }
 
-    public class App {
+    public static class App {
         public String packageName;
         public String name;
     }
 
-    public class Video {
+    public static class Video {
         public String youtubeId;
         public String name;
     }
