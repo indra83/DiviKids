@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="co.in.divi.kids">
 
+    <uses-sdk android:maxSdkVersion="19" />
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -34,6 +36,15 @@
 
         <activity android:name="co.in.divi.kids.AppsSetupActivity"></activity>
         <activity android:name="co.in.divi.kids.LearnActivity"></activity>
+
+        <service android:name="co.in.divi.kids.WatchDogService"></service>
+
+        <receiver android:name="co.in.divi.kids.BootReceiver">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="co.in.divi.kids.WatchDogChecker"></receiver>
     </application>
 
 </manifest>

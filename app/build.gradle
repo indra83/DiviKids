@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 19
     buildToolsVersion "19.1.0"
 
     defaultConfig {
         applicationId "co.in.divi.kids"
-        minSdkVersion 15
+        minSdkVersion 14
         targetSdkVersion 19
         versionCode 1
         versionName "1.0"

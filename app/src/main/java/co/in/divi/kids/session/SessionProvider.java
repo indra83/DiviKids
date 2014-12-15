@@ -7,6 +7,8 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+import co.in.divi.kids.WatchDogChecker;
+
 /**
  * Created by indraneel on 01-12-2014.
  */
@@ -47,12 +49,22 @@ public class SessionProvider {
     private ArrayList<SessionChangeListener> listeners;
 
     public boolean isSessionActive() {
-        if (session == null || System.currentTimeMillis() > session.startTimestamp + session.duration)
+        if (session == null)
+            getSession();
+        if (System.currentTimeMillis() > session.startTimestamp + session.duration)
             return false;
         return true;
     }
 
     public Session getSession() {
+        if (session == null) {
+            String sessionString = prefs.getString(PREF_SESSION_DETAILS, null);
+            if (sessionString != null) {
+                session = new Gson().fromJson(sessionString, Session.class);
+            }
+            if (session == null)
+                session = Session.getNullSession();
+        }
         return session;
     }
 
@@ -62,6 +74,8 @@ public class SessionProvider {
         for (SessionChangeListener listener : listeners) {
             listener.onSessionChange();
         }
+        // start alarm
+        WatchDogChecker.scheduleAlarms(context);
     }
 
     public int getUnlockPin() {

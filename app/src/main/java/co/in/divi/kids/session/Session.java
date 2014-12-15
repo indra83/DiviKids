@@ -39,4 +39,8 @@ public class Session {
             Log.d(TAG, "vid:" + vid.youtubeId);
         }
     }
+
+    public static Session getNullSession() {
+        return new Session(0, null, null);
+    }
 }
