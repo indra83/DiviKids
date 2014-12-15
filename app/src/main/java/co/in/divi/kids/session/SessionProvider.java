@@ -15,7 +15,7 @@ public class SessionProvider {
 
     private static final String PREFS_FILE = "SESSION_PREFS";
     private static final String PREF_SESSION_DETAILS = "PREF_SESSION_DETAILS";
-//    private static final String PREF_LOGIN_SYNC_DONE = "PREF_LOGIN_SYNC_DONE";
+    private static final String PREF_UNLOCK_PIN = "PREF_UNLOCK_PIN";
 //    private static final String PREF_SELECTED_COURSE = "PREF_SELECTED_COURSE";
 
     /*
@@ -43,6 +43,7 @@ public class SessionProvider {
     private Context context;
     private SharedPreferences prefs;
     private Session session;
+    private Integer unlockPin = null;
     private ArrayList<SessionChangeListener> listeners;
 
     public boolean isSessionActive() {
@@ -61,6 +62,18 @@ public class SessionProvider {
         for (SessionChangeListener listener : listeners) {
             listener.onSessionChange();
         }
+    }
+
+    public int getUnlockPin() {
+        if (unlockPin == null) {
+            unlockPin = prefs.getInt(PREF_UNLOCK_PIN, 1111);
+        }
+        return unlockPin;
+    }
+
+    public void setUnlockPin(int newPin) {
+        unlockPin = newPin;
+        prefs.edit().putInt(PREF_UNLOCK_PIN, newPin).apply();
     }
 
     public void addSessionChangeListener(SessionChangeListener listener) {

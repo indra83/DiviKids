@@ -33,6 +33,7 @@
         </activity>
 
         <activity android:name="co.in.divi.kids.AppsSetupActivity"></activity>
+        <activity android:name="co.in.divi.kids.LearnActivity"></activity>
     </application>
 
 </manifest>

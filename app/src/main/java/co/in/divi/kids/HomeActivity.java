@@ -11,12 +11,15 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -27,11 +30,13 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 
 import co.in.divi.kids.content.Content;
 import co.in.divi.kids.content.DiviKidsContentProvider;
 import co.in.divi.kids.session.Session;
 import co.in.divi.kids.session.SessionProvider;
+import co.in.divi.kids.ui.HelpDialogFragment;
 import co.in.divi.kids.util.Config;
 import co.in.divi.kids.util.Util;
 
@@ -40,10 +45,11 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
     private static final String TAG = HomeActivity.class.getSimpleName();
 
     private TextView setupText, durationText;
-    private Button startButton, appsSetupButton;
+    private Button startButton, appsSetupButton, changePin;
     private RadioButton randomRadio, categoryRadio, focusRadio;
     private RadioGroup contentSelector;
     private SeekBar durationSelector;
+    private CheckBox confirmPin;
 
     private SessionProvider sessionProvider;
 
@@ -83,11 +89,14 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
         randomRadio = (RadioButton) findViewById(R.id.radio_random);
         categoryRadio = (RadioButton) findViewById(R.id.radio_category);
         focusRadio = (RadioButton) findViewById(R.id.radio_focus);
+        confirmPin = (CheckBox) findViewById(R.id.confirm_pin_check);
+        changePin = (Button) findViewById(R.id.change_pin);
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sessionProvider.setSession(new Session(30000, content.categories[0].subCategories[0].apps, content.categories[0].subCategories[0].videos));
+                HelpDialogFragment newFragment = new HelpDialogFragment();
+                newFragment.show(getFragmentManager(), "HELP_DIALOG");
             }
         });
 
@@ -130,7 +139,23 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
         });
         durationSelector.setProgress(1);
 
-        refreshContentRadio();
+        TextView learnCategoriesText = (TextView) findViewById(R.id.learn_categories);
+        learnCategoriesText.setText(Html.fromHtml("<u>Learn about Categories</u>"));
+        learnCategoriesText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent learnCatIntent = new Intent(HomeActivity.this, LearnActivity.class);
+                startActivity(learnCatIntent);
+            }
+        });
+
+        changePin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(HomeActivity.this).setTitle("Enter new PIN");
+                //TODO:
+            }
+        });
     }
 
     @Override
@@ -143,6 +168,20 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
         intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
         intentFilter.addDataScheme("package");
         registerReceiver(appInstallReceiver, intentFilter);
+
+        confirmPin.setText(Html.fromHtml("Confirm unlock PIN <b>" + sessionProvider.getUnlockPin() + "</b>"));
+        startButton.setEnabled(false);
+        confirmPin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                if (checked)
+                    startButton.setEnabled(true);
+                else
+                    startButton.setEnabled(false);
+            }
+        });
+        confirmPin.setChecked(false);
+        refreshContentRadio();
         refreshContent();
     }
 
@@ -159,6 +198,64 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
         unregisterReceiver(appInstallReceiver);
         if (fetchContentTask != null)
             fetchContentTask.cancel(false);
+    }
+
+    public void startSession() {
+        long time = 0;
+        switch (durationSelector.getProgress()) {
+            case 1:
+                time = 20 * 60 * 1000;
+                break;
+            case 2:
+                time = 60 * 60 * 1000;
+                break;
+            case 3:
+                time = Long.MAX_VALUE;
+                break;
+        }
+        ArrayList<Content.App> apps = new ArrayList<Content.App>();
+        ArrayList<Content.Video> videos = new ArrayList<Content.Video>();
+        int catIndex = -1;
+        switch (contentType) {
+
+            case RANDOM:
+                Random rand = new Random(System.currentTimeMillis());
+                catIndex = rand.nextInt(content.categories.length);
+                break;
+            case CATEGORY:
+                int i = 0;
+                for (Content.Category cat : content.categories) {
+                    if (cat.id.equalsIgnoreCase(categoryId))
+                        break;
+                    i++;
+                }
+                catIndex = i;
+                break;
+            case FOCUS:
+                for (Content.Category cat : content.categories) {
+                    for (Content.SubCategory subCat : cat.subCategories) {
+                        for (Content.App app : subCat.apps) {
+                            if (app.packageName.equalsIgnoreCase(appId)) {
+                                apps.add(app);
+                                break;
+                            }
+                        }
+                    }
+                }
+                break;
+        }
+        if (catIndex >= 0) {
+            for (Content.SubCategory subCat : content.categories[catIndex].subCategories) {
+                for (Content.App app : subCat.apps) {
+                    if (installedAppPackages.contains(app.packageName))
+                        apps.add(app);
+                }
+                for (Content.Video video : subCat.videos) {
+                    videos.add(video);
+                }
+            }
+        }
+        sessionProvider.setSession(new Session(time, apps.toArray(new Content.App[apps.size()]), videos.toArray(new Content.Video[videos.size()])));
     }
 
     private void refreshContent() {
@@ -247,7 +344,7 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
 
     private void checkSession() {
         if (sessionProvider.isSessionActive()) {
-//            finish();
+            finish();
             Util.enableLauncher(this);
             Intent startMain = new Intent(this, LauncherActivity.class);
             startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -385,9 +482,8 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
                 }
             }
             setupText.setText("1. Apps' status : " + installedApps + " installed of " + totalApps);
-            appsSetupButton.setEnabled(false);
+            appsSetupButton.setEnabled(true);
             content = c;
-            startButton.setEnabled(true);
         }
     }
 }

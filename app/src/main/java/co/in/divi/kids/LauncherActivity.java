@@ -49,20 +49,13 @@ public class LauncherActivity extends Activity implements SessionProvider.Sessio
     protected void onStart() {
         super.onStart();
         sessionProvider.addSessionChangeListener(this);
-        checkSession();
         session = sessionProvider.getSession();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (!Util.isLauncherDefault(this)) {
-            Log.d(TAG, "we are not default!");
-            Intent startMain = new Intent(Intent.ACTION_MAIN);
-            startMain.addCategory(Intent.CATEGORY_HOME);
-            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(startMain);
-        }
+        checkSession();
     }
 
     @Override
@@ -95,7 +88,15 @@ public class LauncherActivity extends Activity implements SessionProvider.Sessio
     }
 
     private void checkSession() {
+        logDebug();
         if (sessionProvider.isSessionActive()) {
+            if (!Util.isLauncherDefault(this)) {
+                Log.d(TAG, "we are not default!");
+                Intent startMain = new Intent(Intent.ACTION_MAIN);
+                startMain.addCategory(Intent.CATEGORY_HOME);
+                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(startMain);
+            }
             timer.start(sessionProvider.getSession().startTimestamp + sessionProvider.getSession().duration, "Time left : ", this);
         } else {
             // finish and let HomeActivity disable Launcher
@@ -144,5 +145,9 @@ public class LauncherActivity extends Activity implements SessionProvider.Sessio
         }
     }
 
-
+    private void logDebug() {
+        Log.d(TAG, "session::" + sessionProvider.isSessionActive());
+        Log.d(TAG, "default? " + Util.isLauncherDefault(this));
+        sessionProvider.getSession().logDebug();
+    }
 }
