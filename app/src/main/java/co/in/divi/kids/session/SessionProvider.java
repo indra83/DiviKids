@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 
 import co.in.divi.kids.WatchDogChecker;
+import co.in.divi.kids.util.Util;
 
 /**
  * Created by indraneel on 01-12-2014.
@@ -48,7 +49,15 @@ public class SessionProvider {
     private Integer unlockPin = null;
     private ArrayList<SessionChangeListener> listeners;
 
-    public boolean isSessionActive() {
+    public boolean isActive() {
+        if (session == null)
+            getSession();
+        if (System.currentTimeMillis() > session.startTimestamp + session.duration || !Util.isLauncherDefault(context))
+            return false;
+        return true;
+    }
+
+    public boolean isNew() {
         if (session == null)
             getSession();
         if (System.currentTimeMillis() > session.startTimestamp + session.duration)

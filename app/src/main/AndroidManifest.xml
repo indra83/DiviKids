@@ -5,6 +5,7 @@
     <uses-sdk android:maxSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <application
         android:name=".DiviKidsApplication"
@@ -35,7 +36,13 @@
         </activity>
 
         <activity android:name="co.in.divi.kids.AppsSetupActivity"></activity>
+        <activity android:name="co.in.divi.kids.YouTubePlayerActivity"></activity>
+
         <activity android:name="co.in.divi.kids.LearnActivity"></activity>
+
+        <activity
+            android:name=".IntermediateActivity"
+            android:launchMode="singleTop"></activity>
 
         <service android:name="co.in.divi.kids.WatchDogService"></service>
 

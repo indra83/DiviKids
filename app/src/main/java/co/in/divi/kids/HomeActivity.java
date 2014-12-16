@@ -36,7 +36,6 @@ import co.in.divi.kids.content.Content;
 import co.in.divi.kids.content.DiviKidsContentProvider;
 import co.in.divi.kids.session.Session;
 import co.in.divi.kids.session.SessionProvider;
-import co.in.divi.kids.ui.HelpDialogFragment;
 import co.in.divi.kids.util.Config;
 import co.in.divi.kids.util.Util;
 
@@ -95,8 +94,9 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HelpDialogFragment newFragment = new HelpDialogFragment();
-                newFragment.show(getFragmentManager(), "HELP_DIALOG");
+                startSession();
+//                HelpDialogFragment newFragment = new HelpDialogFragment();
+//                newFragment.show(getFragmentManager(), "HELP_DIALOG");
             }
         });
 
@@ -343,11 +343,8 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
     }
 
     private void checkSession() {
-        if (sessionProvider.isSessionActive()) {
-            finish();
-            Util.enableLauncher(this);
-            Intent startMain = new Intent(this, LauncherActivity.class);
-            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (sessionProvider.isNew()) {
+            Intent startMain = new Intent(this, IntermediateActivity.class);
             startActivity(startMain);
         } else {
             Util.disableLauncher(this);

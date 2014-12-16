@@ -2,10 +2,12 @@ package co.in.divi.kids.ui;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -19,6 +21,7 @@ import java.util.Map;
 
 import co.in.divi.kids.LauncherActivity;
 import co.in.divi.kids.R;
+import co.in.divi.kids.YouTubePlayerActivity;
 import co.in.divi.kids.content.Content;
 import co.in.divi.kids.util.Config;
 
@@ -54,6 +57,15 @@ public class VideosFragment extends Fragment implements YouTubeThumbnailView.OnI
         super.onStart();
         videosAdapter = new VideosAdapter();
         videosGrid.setAdapter(videosAdapter);
+        videosGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Content.Video video = (Content.Video) videosAdapter.getItem(position);
+                Intent playVideo = new Intent(getActivity(), YouTubePlayerActivity.class);
+                playVideo.putExtra(YouTubePlayerActivity.INTENT_EXTRA_YOUTUBE_ID, video.youtubeId);
+                getActivity().startActivity(playVideo);
+            }
+        });
     }
 
     @Override

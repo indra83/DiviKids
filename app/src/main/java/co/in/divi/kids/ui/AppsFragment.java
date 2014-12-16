@@ -8,10 +8,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import co.in.divi.kids.LauncherActivity;
 import co.in.divi.kids.R;
@@ -41,6 +43,18 @@ public class AppsFragment extends Fragment {
         super.onStart();
         appsAdapter = new AppsAdapter();
         appsGrid.setAdapter(appsAdapter);
+        appsGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Content.App app = (Content.App) appsAdapter.getItem(position);
+                try {
+                    startActivity(getActivity().getPackageManager().getLaunchIntentForPackage(app.packageName));
+                } catch (Exception e) {
+                    Log.w(TAG, "error launching app", e);
+                    Toast.makeText(getActivity(), "Error launching app!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override

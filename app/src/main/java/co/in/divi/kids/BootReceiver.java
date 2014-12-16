@@ -17,7 +17,7 @@ public class BootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (Config.DEBUG_LOGS_ON) Log.d(TAG, "on boot complete!");
-        if (SessionProvider.getInstance(context).isSessionActive()) {
+        if (SessionProvider.getInstance(context).isActive()) {
             WatchDogChecker.scheduleAlarms(context);
         }
     }

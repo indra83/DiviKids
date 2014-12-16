@@ -4,10 +4,25 @@
     android:layout_height="match_parent">
 
     <co.in.divi.kids.ui.CountDownTimerView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/timer"
-        android:gravity="center" />
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:id="@+id/timer" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:text="Kids safe!"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/end_session"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="End Session"
+        android:layout_margin="@dimen/activity_horizontal_margin" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"

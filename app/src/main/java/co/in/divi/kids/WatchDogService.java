@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
@@ -26,11 +27,13 @@ public class WatchDogService extends Service implements SessionProvider.SessionC
     private PowerManager powerManager;
     private SessionProvider sessionProvider;
 
+    private Handler handler;
     private DaemonThread daemonThread = null;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        handler = new Handler();
         powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         sessionProvider = SessionProvider.getInstance(this);
     }
@@ -51,7 +54,8 @@ public class WatchDogService extends Service implements SessionProvider.SessionC
         if (Config.DEBUG_WATCHDOG)
             Log.w(TAG, "onDestroy");
         sessionProvider.removeSessionChangeListener(this);
-        daemonThread.interrupt();
+        if (daemonThread != null)
+            daemonThread.interrupt();
     }
 
     @Override
@@ -60,7 +64,7 @@ public class WatchDogService extends Service implements SessionProvider.SessionC
     }
 
     private void checkSessionAndStart() {
-        if (sessionProvider.isSessionActive()) {
+        if (sessionProvider.isActive()) {
             // start thread if required.
             if (daemonThread == null || !daemonThread.isAlive() || daemonThread.isInterrupted()) {
                 Intent i = new Intent(this, HomeActivity.class);
@@ -90,10 +94,15 @@ public class WatchDogService extends Service implements SessionProvider.SessionC
     }
 
     private void lockNow() {
-        Intent startMain = new Intent(Intent.ACTION_MAIN);
-        startMain.addCategory(Intent.CATEGORY_HOME);
-        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(startMain);
+        Log.w(TAG, "locking!");
+        if (sessionProvider.isActive()) {
+            Intent startMain = new Intent(Intent.ACTION_MAIN);
+            startMain.addCategory(Intent.CATEGORY_HOME);
+            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(startMain);
+        } else {
+            stopSelf();
+        }
     }
 
     class DaemonThread extends Thread {
@@ -130,23 +139,30 @@ public class WatchDogService extends Service implements SessionProvider.SessionC
                 }
                 if (powerManager.isScreenOn()) {// check if screen on
                     tasks = am.getRunningTasks(10);
-                    if (Config.DEBUG_WATCHDOG)
-                        Log.d(TAG, "got tasks:" + tasks.size());
+//                    if (Config.DEBUG_WATCHDOG)
+//                        Log.d(TAG, "got tasks:" + tasks.size());
                     if (tasks.size() > 0) {
                         pkgName = tasks.get(0).topActivity.getPackageName();
                         if (!allowedApps.contains(pkgName)) {
                             suspiciousActivityStart = System.currentTimeMillis();
+                            Log.e(TAG, "Locking because of: " + pkgName);
                             killAll = true;
-                            lockNow();
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (!interrupted())
+                                        lockNow();
+                                }
+                            });
                         }
                     }
                     // print
                     if (Config.DEBUG_WATCHDOG) {
-                        Log.d(TAG, "===============================================================");
-                        for (ActivityManager.RunningTaskInfo task : tasks) {
-                            Log.d(TAG, "task:" + task.id + ",top:" + task.topActivity.getPackageName());
-                        }
-                        Log.d(TAG, "===============================================================");
+//                        Log.d(TAG, "===============================================================");
+//                        for (ActivityManager.RunningTaskInfo task : tasks) {
+//                            Log.d(TAG, "task:" + task.id + ",top:" + task.topActivity.getPackageName());
+//                        }
+//                        Log.d(TAG, "===============================================================");
                     }
                 }
 
@@ -170,9 +186,9 @@ public class WatchDogService extends Service implements SessionProvider.SessionC
                     try {
                         for (ActivityManager.RunningTaskInfo rt : am.getRunningTasks(40)) {
                             String pName = rt.topActivity.getPackageName();
-                            Log.d(TAG, "killing : " + pName);
                             if (allowedApps.contains(pName))
                                 continue;
+                            Log.d(TAG, "killing : " + pName);
                             am.killBackgroundProcesses(rt.topActivity.getPackageName());
                         }
                     } catch (Exception e) {

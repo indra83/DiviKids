@@ -2,15 +2,20 @@ package co.in.divi.kids;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import co.in.divi.kids.session.Session;
@@ -29,6 +34,7 @@ public class LauncherActivity extends Activity implements SessionProvider.Sessio
     private ViewPager pager;
     private PagerAdapter pagerAdapter;
     private CountDownTimerView timer;
+    private Button endSession;
 
     private SessionProvider sessionProvider;
 
@@ -41,6 +47,7 @@ public class LauncherActivity extends Activity implements SessionProvider.Sessio
         setContentView(R.layout.activity_launcher);
         pager = (ViewPager) findViewById(R.id.pager);
         timer = (CountDownTimerView) findViewById(R.id.timer);
+        endSession = (Button) findViewById(R.id.end_session);
         pagerAdapter = new LauncherPagerAdapter(getFragmentManager());
         pager.setAdapter(pagerAdapter);
     }
@@ -50,6 +57,21 @@ public class LauncherActivity extends Activity implements SessionProvider.Sessio
         super.onStart();
         sessionProvider.addSessionChangeListener(this);
         session = sessionProvider.getSession();
+        endSession.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final EditText pinText = new EditText(LauncherActivity.this);
+                pinText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                new AlertDialog.Builder(LauncherActivity.this).setTitle("Enter PIN").setView(pinText).setPositiveButton("End Session", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (Integer.parseInt(pinText.getText().toString()) == 1111) {
+                            sessionProvider.setSession(Session.getNullSession());
+                        }
+                    }
+                }).show();
+            }
+        });
     }
 
     @Override
@@ -89,28 +111,22 @@ public class LauncherActivity extends Activity implements SessionProvider.Sessio
 
     private void checkSession() {
         logDebug();
-        if (sessionProvider.isSessionActive()) {
-            if (!Util.isLauncherDefault(this)) {
-                Log.d(TAG, "we are not default!");
-                Intent startMain = new Intent(Intent.ACTION_MAIN);
-                startMain.addCategory(Intent.CATEGORY_HOME);
-                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(startMain);
-            }
-            timer.start(sessionProvider.getSession().startTimestamp + sessionProvider.getSession().duration, "Time left : ", this);
-        } else {
-            // finish and let HomeActivity disable Launcher
-            getPackageManager().clearPackagePreferredActivities(getPackageName());
+        if (!sessionProvider.isActive()) {
+            Intent homeIntent = new Intent(LauncherActivity.this, HomeActivity.class);
+            startActivity(homeIntent);
             finish();
-            Intent startHome = new Intent(this, HomeActivity.class);
-            startActivity(startHome);
+            if (sessionProvider.isNew())
+                Toast.makeText(LauncherActivity.this, "Please set Divi as default", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(this, "Session ended.", Toast.LENGTH_LONG).show();
+        } else {
+            timer.start(sessionProvider.getSession().startTimestamp + sessionProvider.getSession().duration, "Time left : ", this);
+            WatchDogChecker.scheduleAlarms(LauncherActivity.this);
         }
     }
 
     @Override
     public void timerEvent() {
-        if (!sessionProvider.isSessionActive())
-            Toast.makeText(this, "Ending session...", Toast.LENGTH_LONG).show();
         checkSession();
     }
 
@@ -146,8 +162,8 @@ public class LauncherActivity extends Activity implements SessionProvider.Sessio
     }
 
     private void logDebug() {
-        Log.d(TAG, "session::" + sessionProvider.isSessionActive());
+        Log.d(TAG, "session::" + sessionProvider.isActive());
         Log.d(TAG, "default? " + Util.isLauncherDefault(this));
-        sessionProvider.getSession().logDebug();
+//        sessionProvider.getSession().logDebug();
     }
 }

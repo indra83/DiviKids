@@ -27,8 +27,8 @@ public class WatchDogChecker extends BroadcastReceiver {
             Log.d(TAG, "onReceive");
 
         // ensure daemon is running
-        if (SessionProvider.getInstance(context).isSessionActive()) {
-            context.startService(new Intent(context, WatchDogService.class));
+        if (SessionProvider.getInstance(context).isActive()) {
+
         } else {
             if (Config.DEBUG_LOGS_ON)
                 Log.d(TAG, "Cancelling alarms!");
@@ -36,6 +36,9 @@ public class WatchDogChecker extends BroadcastReceiver {
             PendingIntent.getBroadcast(context, 0, intent,
                     PendingIntent.FLAG_UPDATE_CURRENT).cancel();
         }
+
+        // start even if session expired - to stop service.
+        context.startService(new Intent(context, WatchDogService.class));
     }
 
     public static void scheduleAlarms(Context context) {

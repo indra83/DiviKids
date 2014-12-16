@@ -32,6 +32,10 @@ public class Session {
 
     public void logDebug() {
         Log.d(TAG, "id:" + id + " , duration:" + (duration / 1000));
+        if (apps == null || videos == null) {
+            Log.d(TAG, "null session!");
+            return;
+        }
         for (Content.App app : apps) {
             Log.d(TAG, "app:" + app.packageName);
         }

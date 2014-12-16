@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.util.Log;
 
 import co.in.divi.kids.LauncherActivity;
 
@@ -20,10 +19,10 @@ public final class Util {
         ResolveInfo resolveInfo = context.getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
         String currentHomePackage = resolveInfo.activityInfo.packageName;
         final String myPackageName = context.getPackageName();
-        if (Config.DEBUG_LOGS_ON) {
-            Log.d(context.getPackageName(), "currentHomePackage:" + currentHomePackage);
-            Log.d(context.getPackageName(), "myPackageName:" + myPackageName);
-        }
+//        if (Config.DEBUG_LOGS_ON) {
+//            Log.d(context.getPackageName(), "currentHomePackage:" + currentHomePackage);
+//            Log.d(context.getPackageName(), "myPackageName:" + myPackageName);
+//        }
         return currentHomePackage.equals(myPackageName);
     }
 
@@ -31,12 +30,20 @@ public final class Util {
         PackageManager p = context.getPackageManager();
         ComponentName cN = new ComponentName(context, LauncherActivity.class);
         p.setComponentEnabledSetting(cN, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+//        ComponentName cN2 = new ComponentName(context, LauncherActivity.class);
+//        p.setComponentEnabledSetting(cN2, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
     }
 
     public static void enableLauncher(Context context) {
         PackageManager p = context.getPackageManager();
         ComponentName cN = new ComponentName(context, LauncherActivity.class);
         p.setComponentEnabledSetting(cN, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+//        ComponentName cN2 = new ComponentName(context, IntermediateActivity.class);
+//        p.setComponentEnabledSetting(cN2, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+    }
+
+    public static void toggleLauncher() {
+
     }
 
     public static long getTimestampMillis() {
