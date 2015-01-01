@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="co.in.divi.kids">
+    package="co.in.divi.kids" >
 
     <uses-sdk android:maxSdkVersion="19" />
 
@@ -12,21 +12,20 @@
         android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
-            android:name="co.in.divi.kids.HomeActivity"
-            android:label="@string/app_name">
+            android:name=".HomeActivity"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="co.in.divi.kids.LauncherActivity"
+            android:name=".LauncherActivity"
             android:enabled="false"
-            android:launchMode="singleInstance">
+            android:launchMode="singleInstance" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,24 +33,21 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-        <activity android:name="co.in.divi.kids.AppsSetupActivity"></activity>
-        <activity android:name="co.in.divi.kids.YouTubePlayerActivity"></activity>
-
-        <activity android:name="co.in.divi.kids.LearnActivity"></activity>
-
+        <activity android:name=".AppsSetupActivity" />
+        <activity android:name=".YouTubePlayerActivity" />
+        <activity android:name=".LearnActivity" />
         <activity
             android:name=".IntermediateActivity"
-            android:launchMode="singleTop"></activity>
+            android:launchMode="singleTop" />
 
-        <service android:name="co.in.divi.kids.WatchDogService"></service>
+        <service android:name=".WatchDogService" />
 
-        <receiver android:name="co.in.divi.kids.BootReceiver">
-            <intent-filter android:priority="1000">
+        <receiver android:name=".BootReceiver" >
+            <intent-filter android:priority="1000" >
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <receiver android:name="co.in.divi.kids.WatchDogChecker"></receiver>
+        <receiver android:name=".WatchDogChecker" />
     </application>
 
 </manifest>
