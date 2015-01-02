@@ -161,6 +161,10 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
     @Override
     protected void onStart() {
         super.onStart();
+        if (DiviKidsApplication.get().getLoginDetails() == null) {
+            Intent loginIntent = new Intent(this, LoginActivity.class);
+            startActivity(loginIntent);
+        }
         startButton.setEnabled(false);
         sessionProvider.addSessionChangeListener(this);
         IntentFilter intentFilter = new IntentFilter();
@@ -462,6 +466,10 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
 
         @Override
         protected void onPostExecute(Integer integer) {
+            if(c==null) {
+                finish();
+                return;
+            }
             installedAppPackages.clear();
             for (ApplicationInfo appInfo : getPackageManager().getInstalledApplications(0)) {
                 installedAppPackages.add(appInfo.packageName);

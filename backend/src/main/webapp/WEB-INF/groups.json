@@ -1,0 +1,13 @@
+{
+"userId":null,
+  "groups": [
+    {
+      "title": "Toddlers",
+      "groupId": "toddler1"
+    },
+    {
+      "title": "Kindergarden",
+      "groupId": "kg1"
+    }
+  ]
+}
