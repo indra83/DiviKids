@@ -3,7 +3,6 @@
 
     <string name="app_name">Divi Kids</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
 
     <!-- Home -->
     <string name="random">Random</string>
@@ -11,5 +10,10 @@
     <string name="focus">Focus on 1 App</string>
 
     <string name="choose_category_title">Pick a category</string>
+    <string name="action_learn">Learn about categories</string>
+    <string name="action_stats">Stats</string>
+    <string name="action_share">Tell friends about DiviKids</string>
+    <string name="action_add">Add an app/video</string>
+    <string name="action_logout"><![CDATA[Logout & disconnect G+]]></string>
 
 </resources>

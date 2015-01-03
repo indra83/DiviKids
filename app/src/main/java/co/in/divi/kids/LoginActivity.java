@@ -43,8 +43,9 @@ import co.in.divi.kids.util.Config;
 
 public class LoginActivity extends Activity
         implements ConnectionCallbacks, OnConnectionFailedListener, View.OnClickListener {
-
     private static final String TAG = LoginActivity.class.getSimpleName();
+
+    public static final String INTENT_EXTRA_LOGOUT = "INTENT_EXTRA_LOGOUT ";
 
     private static final int STATE_DEFAULT = 0;
     private static final int STATE_SIGN_IN = 1;
@@ -89,8 +90,8 @@ public class LoginActivity extends Activity
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
 
         // temp
@@ -216,6 +217,16 @@ public class LoginActivity extends Activity
     public void onConnected(Bundle connectionHint) {
         // Reaching onConnected means we consider the user signed in.
         Log.i(TAG, "onConnected");
+        if (getIntent().getBooleanExtra(INTENT_EXTRA_LOGOUT, false)) {
+            getIntent().removeExtra(INTENT_EXTRA_LOGOUT);
+            Toast.makeText(this, "Logging out...", Toast.LENGTH_LONG).show();
+            DiviKidsApplication.get().setLoginDetails(null);
+            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+            Plus.AccountApi.revokeAccessAndDisconnect(mGoogleApiClient);
+            mGoogleApiClient = buildGoogleApiClient();
+            mGoogleApiClient.connect();
+            return;
+        }
 
         // Update the user interface to reflect that the user is signed in.
         mSignInButton.setEnabled(false);

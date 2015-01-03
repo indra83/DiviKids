@@ -14,6 +14,9 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -164,6 +167,8 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
         if (DiviKidsApplication.get().getLoginDetails() == null) {
             Intent loginIntent = new Intent(this, LoginActivity.class);
             startActivity(loginIntent);
+            finish();
+            return;
         }
         startButton.setEnabled(false);
         sessionProvider.addSessionChangeListener(this);
@@ -202,6 +207,49 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
         unregisterReceiver(appInstallReceiver);
         if (fetchContentTask != null)
             fetchContentTask.cancel(false);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_home, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_stats:
+                //TODO:
+                return true;
+            case R.id.action_learn:
+                Intent learnCatIntent = new Intent(HomeActivity.this, LearnActivity.class);
+                startActivity(learnCatIntent);
+                return true;
+            case R.id.action_add:
+                //TODO:
+                return true;
+            case R.id.action_share:
+                try {
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("text/plain");
+                    i.putExtra(Intent.EXTRA_SUBJECT, "Divi KidSafe");
+                    String sAux = "\nLet me recommend you this application\n\n";
+                    sAux = sAux + "https://play.google.com/store/apps/details?id=co.in.divi.kids \n\n";
+                    i.putExtra(Intent.EXTRA_TEXT, sAux);
+                    startActivity(Intent.createChooser(i, "Share via"));
+                } catch (Exception e) { //e.toString();
+                }
+                return true;
+            case R.id.action_logout:
+                Intent logoutIntent = new Intent(HomeActivity.this, LoginActivity.class);
+                logoutIntent.putExtra(LoginActivity.INTENT_EXTRA_LOGOUT, true);
+                startActivity(logoutIntent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void startSession() {
@@ -466,7 +514,7 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
 
         @Override
         protected void onPostExecute(Integer integer) {
-            if(c==null) {
+            if (c == null) {
                 finish();
                 return;
             }
