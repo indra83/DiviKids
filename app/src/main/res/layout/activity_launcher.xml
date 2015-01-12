@@ -1,34 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_launcher">
+        <co.in.divi.kids.ui.CountDownTimerView
+            android:id="@+id/timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/text_grey"
+            android:layout_margin="@dimen/activity_horizontal_margin" />
+   <!--
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:text="Kids safe!" />
 
-    <co.in.divi.kids.ui.CountDownTimerView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:id="@+id/timer" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:text="Kids safe!"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:id="@+id/end_session"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:text="End Session"
-        android:layout_margin="@dimen/activity_horizontal_margin" />
-
+        <Button
+            android:id="@+id/end_session"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:text="End Session" />
+    -->
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@id/timer">
+        android:layout_height="fill_parent">
 
         <android.support.v4.view.PagerTabStrip
             android:layout_width="wrap_content"

@@ -11,6 +11,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -25,6 +26,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -54,11 +56,12 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
     private Button overlayAppsSetupButton, overlayNextButton;
 
     private TextView setupText, durationText, appsSetupButton;
-    private Button startButton, changePin;
-//    private RadioButton randomRadio, categoryRadio, focusRadio;
+    private ImageView startButton;
+    //    private Button startButton, changePin;
+    //    private RadioButton randomRadio, categoryRadio, focusRadio;
     private TextView contentSelector;
     private SeekBar durationSelector;
-    private CheckBox confirmPin;
+    private EditText pinInput;
 
     private SessionProvider sessionProvider;
 
@@ -91,7 +94,6 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
         installedAppPackages = new HashSet<String>();
         setContentView(R.layout.activity_home);
         getActionBar().setBackgroundDrawable(new ColorDrawable(0xff3b76de));
-//        getActionBar().setBackgroundDrawable(new ColorDrawable(R.color.blue));
         getActionBar().setIcon(R.drawable.ic_action_logo);
         getActionBar().hide();
         // overlay
@@ -112,7 +114,6 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
         overlayAppsSetupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                setupOverlay.setVisibility(View.GONE);
                 Intent startAppsSetup = new Intent(HomeActivity.this, AppsSetupActivity.class);
                 startActivity(startAppsSetup);
             }
@@ -122,13 +123,9 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
         setupText = (TextView) findViewById(R.id.setupText);
         durationText = (TextView) findViewById(R.id.duration_label);
         durationSelector = (SeekBar) findViewById(R.id.duration_selector);
-        startButton = (Button) findViewById(R.id.startButton);
+        startButton = (ImageView) findViewById(R.id.start);
         contentSelector = (TextView) findViewById(R.id.selector_content);
-//        randomRadio = (RadioButton) findViewById(R.id.radio_random);
-//        categoryRadio = (RadioButton) findViewById(R.id.radio_category);
-//        focusRadio = (RadioButton) findViewById(R.id.radio_focus);
-        confirmPin = (CheckBox) findViewById(R.id.confirm_pin_check);
-        changePin = (Button) findViewById(R.id.change_pin);
+        pinInput = (EditText) findViewById(R.id.pin);
 
         contentSelector.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,8 +137,6 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
             @Override
             public void onClick(View view) {
                 startSession();
-//                HelpDialogFragment newFragment = new HelpDialogFragment();
-//                newFragment.show(getFragmentManager(), "HELP_DIALOG");
             }
         });
 
@@ -183,24 +178,8 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
             }
         });
         durationSelector.setProgress(1);
-
-        TextView learnCategoriesText = (TextView) findViewById(R.id.learn_categories);
-        learnCategoriesText.setText(Html.fromHtml("<u>Learn about Categories</u>"));
-        learnCategoriesText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent learnCatIntent = new Intent(HomeActivity.this, LearnActivity.class);
-                startActivity(learnCatIntent);
-            }
-        });
-
-        changePin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new AlertDialog.Builder(HomeActivity.this).setTitle("Enter new PIN");
-                //TODO:
-            }
-        });
+//                Intent learnCatIntent = new Intent(HomeActivity.this, LearnActivity.class);
+//                startActivity(learnCatIntent);
     }
 
     @Override
@@ -212,7 +191,6 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
             finish();
             return;
         }
-        startButton.setEnabled(false);
         sessionProvider.addSessionChangeListener(this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
@@ -220,18 +198,8 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
         intentFilter.addDataScheme("package");
         registerReceiver(appInstallReceiver, intentFilter);
 
-        confirmPin.setText(Html.fromHtml("Confirm unlock PIN <b>" + sessionProvider.getUnlockPin() + "</b>"));
-        startButton.setEnabled(false);
-        confirmPin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                if (checked)
-                    startButton.setEnabled(true);
-                else
-                    startButton.setEnabled(false);
-            }
-        });
-        confirmPin.setChecked(false);
+        pinInput.setText("" + sessionProvider.getUnlockPin());
+//        startButton.setEnabled(false);
         refreshContentView();
         refreshContent();
     }
@@ -297,6 +265,7 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
     }
 
     public void startSession() {
+        sessionProvider.setUnlockPin(Integer.parseInt(pinInput.getText().toString()));
         long time = 0;
         switch (durationSelector.getProgress()) {
             case 1:
@@ -370,7 +339,7 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
     };
 
     private void showContentRadio() {
-        Log.d(TAG,"Content selector popup!");
+        Log.d(TAG, "Content selector popup!");
         int selectedItem = -1;
         switch (contentType) {
             case RANDOM:

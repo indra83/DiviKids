@@ -7,14 +7,19 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -35,7 +40,7 @@ public class LauncherActivity extends Activity implements SessionProvider.Sessio
     private ViewPager pager;
     private PagerAdapter pagerAdapter;
     private CountDownTimerView timer;
-    private Button endSession;
+//    private Button endSession;
 
     private SessionProvider sessionProvider;
 
@@ -44,12 +49,16 @@ public class LauncherActivity extends Activity implements SessionProvider.Sessio
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getActionBar().setBackgroundDrawable(new ColorDrawable(0xff3b76de));
+        getActionBar().setIcon(R.drawable.ic_action_logo);
+
         sessionProvider = SessionProvider.getInstance(this);
         setContentView(R.layout.activity_launcher);
         pager = (ViewPager) findViewById(R.id.pager);
         timer = (CountDownTimerView) findViewById(R.id.timer);
-        endSession = (Button) findViewById(R.id.end_session);
+//        endSession = (Button) findViewById(R.id.end_session);
         pagerAdapter = new LauncherPagerAdapter(getFragmentManager());
         pager.setAdapter(pagerAdapter);
     }
@@ -59,21 +68,6 @@ public class LauncherActivity extends Activity implements SessionProvider.Sessio
         super.onStart();
         sessionProvider.addSessionChangeListener(this);
         session = sessionProvider.getSession();
-        endSession.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final EditText pinText = new EditText(LauncherActivity.this);
-                pinText.setInputType(InputType.TYPE_CLASS_NUMBER);
-                new AlertDialog.Builder(LauncherActivity.this).setTitle("Enter PIN").setView(pinText).setPositiveButton("End Session", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (Integer.parseInt(pinText.getText().toString()) == 1111) {
-                            sessionProvider.setSession(Session.getNullSession());
-                        }
-                    }
-                }).show();
-            }
-        });
     }
 
     @Override
@@ -117,6 +111,33 @@ public class LauncherActivity extends Activity implements SessionProvider.Sessio
     @Override
     public void timerEvent() {
         checkSession();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_launcher, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_exit:
+                final EditText pinText = new EditText(LauncherActivity.this);
+                pinText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                new AlertDialog.Builder(LauncherActivity.this).setTitle("Enter PIN").setView(pinText).setPositiveButton("End Session", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (Integer.parseInt(pinText.getText().toString()) == 1111) {
+                            sessionProvider.setSession(Session.getNullSession());
+                        }
+                    }
+                }).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private class LauncherPagerAdapter extends FragmentStatePagerAdapter {

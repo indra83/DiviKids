@@ -77,7 +77,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="5dp"
                     android:text="Sign in using your Google Account"
-                    android:textColor="@color/text_grey" />
+                    android:textColor="#ffffff" />
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>

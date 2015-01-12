@@ -11,15 +11,26 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
 
-        <Button
-            android:id="@+id/startButton"
+        <ImageView
+            android:id="@+id/start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/start_label"
+            android:layout_below="@+id/pin"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:clickable="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/start" />
+
+        <TextView
+            android:id="@+id/start_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:padding="15dp"
-            android:text="Start Session"
-            android:textSize="25dp" />
+            style="@style/home_cont_style"
+            android:text="Tap to start session" />
 
         <TextView
             android:id="@+id/setupText"
@@ -48,49 +59,21 @@
 
         <TextView
             android:id="@+id/categoryLabel"
+            style="@style/home_label_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/apps_setup_button"
-            android:text="Select content"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:text="Select content" />
 
-        <!--
-        <RadioGroup
-            android:id="@+id/selector_content"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/categoryLabel"
-            android:orientation="vertical">
-
-            <RadioButton
-                android:id="@+id/radio_random"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/random" />
-
-            <RadioButton
-                android:id="@+id/radio_category"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/category" />
-
-            <RadioButton
-                android:id="@+id/radio_focus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/focus" />
-        </RadioGroup>
-        -->
         <TextView
             android:id="@+id/selector_content"
+            style="@style/home_cont_style"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/categoryLabel"
             android:background="@drawable/bg_cat_selector"
             android:clickable="true"
-            android:gravity="center_vertical"
-            android:textColor="@color/blue"
-            android:textSize="18sp" />
+            android:gravity="center_vertical" />
         <!--
                 <TextView
                     android:id="@+id/learn_categories"
@@ -105,35 +88,45 @@
         -->
         <TextView
             android:id="@+id/duration_label"
+            style="@style/home_label_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/selector_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="3. Session timeout..."
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:text="Duration: " />
 
-        <SeekBar
-            android:id="@+id/duration_selector"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/duration_container"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/duration_label"
-            android:layout_marginTop="26dp"
-            android:max="3" />
+            android:background="@drawable/bg_cat_selector">
 
-        <CheckBox
-            android:id="@+id/confirm_pin_check"
+            <SeekBar
+                android:id="@+id/duration_selector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="3" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/pin_label"
+            style="@style/home_label_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/duration_selector" />
+            android:layout_below="@id/duration_container"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="Unlock PIN" />
 
-        <Button
-            android:id="@+id/change_pin"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/pin"
+            style="@style/home_cont_style"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/confirm_pin_check"
-            android:layout_alignParentRight="true"
-            android:text="Change PIN" />
-
+            android:layout_below="@+id/pin_label"
+            android:background="@drawable/bg_cat_selector"
+            android:gravity="center_vertical"
+            android:inputType="number" />
 
     </RelativeLayout>
 
@@ -159,7 +152,7 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <LinearLayout
+        <LinearLayout android:id="@+id/apps_progress_container"
             android:layout_width="fill_parent"
             android:layout_height="10dp"
             android:layout_below="@id/apps_installed_text"
@@ -181,6 +174,16 @@
                 android:background="@android:color/white" />
         </LinearLayout>
 
+        <TextView
+            android:layout_below="@id/apps_progress_container"
+            android:textSize="16sp"
+            android:text="Install from the large selection of curated apps to give your child age appropriate content to play with."
+            android:textColor="@android:color/white"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:gravity="center"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
         <Button
             android:id="@+id/next"
             android:layout_width="fill_parent"
@@ -189,7 +192,7 @@
             android:layout_margin="@dimen/activity_horizontal_margin"
             android:background="@drawable/bg_next"
             android:text="NEXT"
-            android:textColor="@android:color/white"
+            android:textColor="@color/blue1"
             android:textSize="23sp" />
 
         <Button
@@ -200,6 +203,8 @@
             android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/activity_vertical_margin"
             android:background="@drawable/bg_setup_button1"
+            android:textColor="@color/blue1"
+            android:textSize="22sp"
             android:text="Setup Apps" />
     </RelativeLayout>
 </FrameLayout>

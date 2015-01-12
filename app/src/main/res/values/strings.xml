@@ -15,5 +15,6 @@
     <string name="action_share">Tell friends about DiviKids</string>
     <string name="action_add">Add an app/video</string>
     <string name="action_logout"><![CDATA[Logout & disconnect G+]]></string>
+    <string name="action_exit">Exit</string>
 
 </resources>
