@@ -1,114 +1,205 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".HomeActivity">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/white">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start Session"
-        android:id="@+id/startButton"
-        android:padding="15dp"
-        android:textSize="25dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/setupText"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Setup Apps"
-        android:id="@+id/apps_setup_button"
-        android:padding="10dp"
-        android:textSize="18dp"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/setupText" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/categoryLabel"
-        android:layout_below="@id/apps_setup_button"
-        android:text="2. Choose content" />
-
-    <RadioGroup
-        android:id="@+id/selector_content"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/categoryLabel"
-        android:orientation="vertical">
-
-        <RadioButton
-            android:id="@+id/radio_random"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/random" />
-
-        <RadioButton
-            android:id="@+id/radio_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/category" />
-
-        <RadioButton
-            android:id="@+id/radio_focus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/focus" />
-    </RadioGroup>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/holo_blue_dark"
-        android:textSize="20sp"
-        android:textStyle="italic"
-        android:id="@+id/learn_categories"
-        android:layout_below="@id/selector_content"
-        android:layout_alignParentRight="true"
-        android:clickable="true"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/duration_label"
-        android:layout_below="@id/learn_categories"
-        android:text="3. Session timeout..." />
-
-    <SeekBar
-        android:id="@+id/duration_selector"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/duration_label"
-        android:layout_marginTop="26dp"
-        android:max="3" />
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
 
-    <CheckBox android:id="@+id/confirm_pin_check"
-        android:layout_below="@id/duration_selector"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/startButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:padding="15dp"
+            android:text="Start Session"
+            android:textSize="25dp" />
 
-    <Button android:id="@+id/change_pin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/confirm_pin_check"
-        android:layout_alignParentRight="true"
-        android:text="Change PIN"/>
+        <TextView
+            android:id="@+id/setupText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/apps_setup_button"
+            android:text="blah"
+            android:textColor="@color/blue"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/apps_setup_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/setupText"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/bg_apps_setup_n"
+            android:gravity="center"
+            android:text="Setup Apps"
+            android:textColor="@android:color/white"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/categoryLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/apps_setup_button"
+            android:text="Select content"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <!--
+        <RadioGroup
+            android:id="@+id/selector_content"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/categoryLabel"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/radio_random"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/random" />
+
+            <RadioButton
+                android:id="@+id/radio_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category" />
+
+            <RadioButton
+                android:id="@+id/radio_focus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/focus" />
+        </RadioGroup>
+        -->
+        <TextView
+            android:id="@+id/selector_content"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/categoryLabel"
+            android:background="@drawable/bg_cat_selector"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:textColor="@color/blue"
+            android:textSize="18sp" />
+        <!--
+                <TextView
+                    android:id="@+id/learn_categories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/selector_content"
+                    android:clickable="true"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="20sp"
+                    android:textStyle="italic" />
+        -->
+        <TextView
+            android:id="@+id/duration_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/selector_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="3. Session timeout..."
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <SeekBar
+            android:id="@+id/duration_selector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/duration_label"
+            android:layout_marginTop="26dp"
+            android:max="3" />
+
+        <CheckBox
+            android:id="@+id/confirm_pin_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/duration_selector" />
+
+        <Button
+            android:id="@+id/change_pin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/confirm_pin_check"
+            android:layout_alignParentRight="true"
+            android:text="Change PIN" />
 
 
-</RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/apps_setup_overlay"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:clickable="true">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_1" />
+
+        <TextView
+            android:id="@+id/apps_installed_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="10dp"
+            android:layout_below="@id/apps_installed_text"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:background="@drawable/bg_apps_progress"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/overlay_apps_progress_actual"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1" />
+
+            <View
+                android:id="@+id/overlay_apps_progress_inverse"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@android:color/white" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/next"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:background="@drawable/bg_next"
+            android:text="NEXT"
+            android:textColor="@android:color/white"
+            android:textSize="23sp" />
+
+        <Button
+            android:id="@+id/overlay_setup_apps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/next"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:background="@drawable/bg_setup_button1"
+            android:text="Setup Apps" />
+    </RelativeLayout>
+</FrameLayout>

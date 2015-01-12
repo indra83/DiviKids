@@ -15,6 +15,7 @@ public class Session {
     public String id;
     public long startTimestamp;
     public long duration;
+    public boolean active = false;
 
     public Content.App[] apps;
     public Content.Video[] videos;

@@ -35,3 +35,5 @@
 ##---------------End: proguard configuration for Gson ----------
 -keep class co.in.divi.kids.content.Content { *; }
 -keep class co.in.divi.kids.content.Content$* { *; }
+-keep class co.in.divi.kids.LoginActivity$LoginResponse { *; }
+-keep class co.in.divi.kids.LoginActivity$Group { *; }

@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -24,6 +26,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
@@ -46,10 +49,14 @@ import co.in.divi.kids.util.Util;
 public class HomeActivity extends Activity implements SessionProvider.SessionChangeListener {
     private static final String TAG = HomeActivity.class.getSimpleName();
 
-    private TextView setupText, durationText;
-    private Button startButton, appsSetupButton, changePin;
-    private RadioButton randomRadio, categoryRadio, focusRadio;
-    private RadioGroup contentSelector;
+    private View setupOverlay, overlayProgressActual, overlayProgressInverse;
+    private TextView overlayAppsText;
+    private Button overlayAppsSetupButton, overlayNextButton;
+
+    private TextView setupText, durationText, appsSetupButton;
+    private Button startButton, changePin;
+//    private RadioButton randomRadio, categoryRadio, focusRadio;
+    private TextView contentSelector;
     private SeekBar durationSelector;
     private CheckBox confirmPin;
 
@@ -83,17 +90,52 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
         sessionProvider = SessionProvider.getInstance(this);
         installedAppPackages = new HashSet<String>();
         setContentView(R.layout.activity_home);
+        getActionBar().setBackgroundDrawable(new ColorDrawable(0xff3b76de));
+//        getActionBar().setBackgroundDrawable(new ColorDrawable(R.color.blue));
+        getActionBar().setIcon(R.drawable.ic_action_logo);
+        getActionBar().hide();
+        // overlay
+        setupOverlay = findViewById(R.id.apps_setup_overlay);
+        overlayProgressActual = findViewById(R.id.overlay_apps_progress_actual);
+        overlayProgressInverse = findViewById(R.id.overlay_apps_progress_inverse);
+        overlayAppsText = (TextView) findViewById(R.id.apps_installed_text);
+        overlayAppsSetupButton = (Button) findViewById(R.id.overlay_setup_apps);
+        overlayNextButton = (Button) findViewById(R.id.next);
+
+        overlayNextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setupOverlay.setVisibility(View.GONE);
+                getActionBar().show();
+            }
+        });
+        overlayAppsSetupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                setupOverlay.setVisibility(View.GONE);
+                Intent startAppsSetup = new Intent(HomeActivity.this, AppsSetupActivity.class);
+                startActivity(startAppsSetup);
+            }
+        });
+
+        // session creator
         setupText = (TextView) findViewById(R.id.setupText);
         durationText = (TextView) findViewById(R.id.duration_label);
         durationSelector = (SeekBar) findViewById(R.id.duration_selector);
         startButton = (Button) findViewById(R.id.startButton);
-        contentSelector = (RadioGroup) findViewById(R.id.selector_content);
-        randomRadio = (RadioButton) findViewById(R.id.radio_random);
-        categoryRadio = (RadioButton) findViewById(R.id.radio_category);
-        focusRadio = (RadioButton) findViewById(R.id.radio_focus);
+        contentSelector = (TextView) findViewById(R.id.selector_content);
+//        randomRadio = (RadioButton) findViewById(R.id.radio_random);
+//        categoryRadio = (RadioButton) findViewById(R.id.radio_category);
+//        focusRadio = (RadioButton) findViewById(R.id.radio_focus);
         confirmPin = (CheckBox) findViewById(R.id.confirm_pin_check);
         changePin = (Button) findViewById(R.id.change_pin);
 
+        contentSelector.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showContentRadio();
+            }
+        });
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,7 +145,7 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
             }
         });
 
-        appsSetupButton = (Button) findViewById(R.id.apps_setup_button);
+        appsSetupButton = (TextView) findViewById(R.id.apps_setup_button);
         appsSetupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -190,7 +232,7 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
             }
         });
         confirmPin.setChecked(false);
-        refreshContentRadio();
+        refreshContentView();
         refreshContent();
     }
 
@@ -204,14 +246,16 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
     protected void onStop() {
         super.onStop();
         sessionProvider.removeSessionChangeListener(this);
-        unregisterReceiver(appInstallReceiver);
+        try {
+            unregisterReceiver(appInstallReceiver);
+        } catch (Exception e) {
+        }
         if (fetchContentTask != null)
             fetchContentTask.cancel(false);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_home, menu);
         return super.onCreateOptionsMenu(menu);
@@ -322,85 +366,100 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
         public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
             if (Config.DEBUG_LOGS_ON)
                 Log.d(TAG, "radio change - " + checkedId);
-            switch (checkedId) {
-                case R.id.radio_random:
-                    contentType = CONTENT_TYPE.RANDOM;
-                    refreshContentRadio();
-                    break;
-                case R.id.radio_category:
-                    final CategoryAdapter adapter = new CategoryAdapter(content);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-                    builder.setTitle(R.string.choose_category_title)
-                            .setAdapter(adapter, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    contentType = CONTENT_TYPE.CATEGORY;
-                                    categoryId = ((Content.Category) adapter.getItem(i)).id;
-                                }
-                            });
-                    AlertDialog dialog = builder.create();
-                    dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialogInterface) {
-                            refreshContentRadio();
-                        }
-                    });
-                    dialog.show();
-                    break;
-                case R.id.radio_focus:
-                    final AppsAdapter appsAdapter = new AppsAdapter(content);
-                    AlertDialog.Builder builder2 = new AlertDialog.Builder(HomeActivity.this);
-                    builder2.setTitle(R.string.choose_category_title)
-                            .setAdapter(appsAdapter, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    contentType = CONTENT_TYPE.FOCUS;
-                                    categoryId = null;
-                                    appId = ((Content.App) appsAdapter.getItem(i)).name;
-                                }
-                            });
-                    AlertDialog dialog2 = builder2.create();
-                    dialog2.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialogInterface) {
-                            refreshContentRadio();
-                        }
-                    });
-                    dialog2.show();
-                    break;
-            }
         }
     };
 
-    private void refreshContentRadio() {
-        contentSelector.setOnCheckedChangeListener(null);
+    private void showContentRadio() {
+        Log.d(TAG,"Content selector popup!");
+        int selectedItem = -1;
         switch (contentType) {
             case RANDOM:
-                randomRadio.setChecked(true);
-                categoryRadio.setText(getResources().getString(R.string.category));
-                focusRadio.setText(getResources().getString(R.string.focus));
+                selectedItem = 0;
                 break;
             case CATEGORY:
-                categoryRadio.setChecked(true);
-                categoryRadio.setText("Selected category:" + categoryId);
-                focusRadio.setText(getResources().getString(R.string.focus));
+                selectedItem = 1;
                 break;
             case FOCUS:
-                focusRadio.setChecked(true);
-                focusRadio.setText("Selected app:" + appId);
-                categoryRadio.setText(getResources().getString(R.string.category));
+                selectedItem = 2;
                 break;
         }
-        contentSelector.setOnCheckedChangeListener(contentSelectorListener);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this).setTitle("Selection type").setSingleChoiceItems(new String[]{"Random", "Pick category", "Focus on 1 app"}, selectedItem, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                switch (i) {
+                    case 0:
+                        contentType = CONTENT_TYPE.RANDOM;
+                        refreshContentView();
+                        break;
+                    case 1:
+                        final CategoryAdapter adapter = new CategoryAdapter(content);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+                        builder.setTitle(R.string.choose_category_title)
+                                .setAdapter(adapter, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        contentType = CONTENT_TYPE.CATEGORY;
+                                        categoryId = ((Content.Category) adapter.getItem(i)).id;
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialogInterface) {
+                                refreshContentView();
+                            }
+                        });
+                        dialog.show();
+                        break;
+                    case 2:
+                        final AppsAdapter appsAdapter = new AppsAdapter(content);
+                        AlertDialog.Builder builder2 = new AlertDialog.Builder(HomeActivity.this);
+                        builder2.setTitle(R.string.choose_category_title)
+                                .setAdapter(appsAdapter, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        contentType = CONTENT_TYPE.FOCUS;
+                                        categoryId = null;
+                                        appId = ((Content.App) appsAdapter.getItem(i)).name;
+                                    }
+                                });
+                        AlertDialog dialog2 = builder2.create();
+                        dialog2.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialogInterface) {
+                                refreshContentView();
+                            }
+                        });
+                        dialog2.show();
+                        break;
+                }
+                dialogInterface.dismiss();
+            }
+        });
+        builder.create().show();
+    }
+
+    private void refreshContentView() {
+        switch (contentType) {
+            case RANDOM:
+                contentSelector.setText("Random category");
+                break;
+            case CATEGORY:
+                contentSelector.setText("Selected category:" + categoryId);
+                break;
+            case FOCUS:
+                contentSelector.setText("Focus app:" + appId);
+                break;
+        }
     }
 
     private void checkSession() {
         if (sessionProvider.isNew()) {
             Intent startMain = new Intent(this, IntermediateActivity.class);
             startActivity(startMain);
-        } else {
-            Util.disableLauncher(this);
+            finish();
         }
+        Util.disableLauncher(this);
     }
 
     @Override
@@ -497,19 +556,57 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
         }
     }
 
-    private class FetchContentTask extends AsyncTask<Void, Void, Integer> {
+    private class FetchContentTask extends AsyncTask<Void, Integer, Integer> {
         Content c;
+        HashSet<String> localApps = new HashSet<String>();
 
         @Override
         protected void onPreExecute() {
             setupText.setText("Scanning apps...");
             appsSetupButton.setEnabled(false);
+            overlayAppsText.setText("Scanning apps...");
         }
 
         @Override
         protected Integer doInBackground(Void... voids) {
             c = DiviKidsContentProvider.getInstance(HomeActivity.this).getContent();
+            Log.d(TAG, new Gson().toJson(c).toString());
+            for (ApplicationInfo appInfo : getPackageManager().getInstalledApplications(0)) {
+                localApps.add(appInfo.packageName);
+            }
+            int totalApps = 0;
+            int installedApps = 0;
+            for (Content.Category cat : c.categories) {
+                for (Content.SubCategory subCategory : cat.subCategories) {
+                    for (Content.App app : subCategory.apps) {
+                        totalApps++;
+                        if (localApps.contains(app.packageName))
+                            installedApps++;
+                    }
+                }
+            }
+            if (installedApps > 0) {
+                int delay = Math.max(200, 1000 / installedApps);
+                for (int i = 1; i <= installedApps; i++) {
+                    publishProgress(new Integer[]{totalApps, i});
+                    try {
+                        Thread.sleep(delay);
+                    } catch (InterruptedException e) {
+                    }
+                }
+            }
             return 0;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            int totalApps = values[0];
+            int installedApps = values[1];
+            overlayAppsText.setText("" + installedApps + " apps installed out of " + totalApps);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, (1.0f * installedApps) / totalApps);
+            LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1.0f - (1.0f * installedApps) / totalApps);
+            overlayProgressActual.setLayoutParams(lp2);
+            overlayProgressInverse.setLayoutParams(lp);
         }
 
         @Override
@@ -519,12 +616,9 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
                 return;
             }
             installedAppPackages.clear();
-            for (ApplicationInfo appInfo : getPackageManager().getInstalledApplications(0)) {
-                installedAppPackages.add(appInfo.packageName);
-            }
+            installedAppPackages.addAll(localApps);
             int totalApps = 0;
             int installedApps = 0;
-            Log.d(TAG, new Gson().toJson(c).toString());
             for (Content.Category cat : c.categories) {
                 for (Content.SubCategory subCategory : cat.subCategories) {
                     for (Content.App app : subCategory.apps) {
@@ -534,7 +628,7 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
                     }
                 }
             }
-            setupText.setText("1. Apps' status : " + installedApps + " installed of " + totalApps);
+            setupText.setText("Apps installed " + installedApps + " of " + totalApps);
             appsSetupButton.setEnabled(true);
             content = c;
         }

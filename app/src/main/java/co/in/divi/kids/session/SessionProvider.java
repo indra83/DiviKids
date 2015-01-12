@@ -52,9 +52,10 @@ public class SessionProvider {
     public boolean isActive() {
         if (session == null)
             getSession();
-        if (System.currentTimeMillis() > session.startTimestamp + session.duration || !Util.isLauncherDefault(context))
-            return false;
-        return true;
+//        if (System.currentTimeMillis() > session.startTimestamp + session.duration || !Util.isLauncherDefault(context))
+//            return false;
+//        return true;
+        return isNew() && session.active;
     }
 
     public boolean isNew() {
@@ -85,6 +86,12 @@ public class SessionProvider {
         }
         // start alarm
         WatchDogChecker.scheduleAlarms(context);
+    }
+
+    public void setSessionActive() {
+        if(session==null) getSession();
+        session.active = true;
+        setSession(session);
     }
 
     public int getUnlockPin() {

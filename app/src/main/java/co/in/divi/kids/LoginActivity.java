@@ -90,8 +90,7 @@ public class LoginActivity extends Activity
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
 
         // temp
@@ -220,11 +219,7 @@ public class LoginActivity extends Activity
         if (getIntent().getBooleanExtra(INTENT_EXTRA_LOGOUT, false)) {
             getIntent().removeExtra(INTENT_EXTRA_LOGOUT);
             Toast.makeText(this, "Logging out...", Toast.LENGTH_LONG).show();
-            DiviKidsApplication.get().setLoginDetails(null);
-            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
-            Plus.AccountApi.revokeAccessAndDisconnect(mGoogleApiClient);
-            mGoogleApiClient = buildGoogleApiClient();
-            mGoogleApiClient.connect();
+            logoutAndDisconnect();
             return;
         }
 
@@ -253,6 +248,14 @@ public class LoginActivity extends Activity
         mSignInProgress = STATE_DEFAULT;
     }
 
+    private void logoutAndDisconnect() {
+        DiviKidsApplication.get().setLoginDetails(null);
+        Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+        Plus.AccountApi.revokeAccessAndDisconnect(mGoogleApiClient);
+        mGoogleApiClient = buildGoogleApiClient();
+        mGoogleApiClient.connect();
+    }
+
     private void performDiviLogin(String id, String name, String email) {
         try {
             JSONObject jsonRequest = new JSONObject();
@@ -278,6 +281,7 @@ public class LoginActivity extends Activity
                         Toast.makeText(LoginActivity.this, "Error : logging in, please try again...", Toast.LENGTH_LONG).show();
                         mStatus.setText("Login failed!");
                         pb.setVisibility(View.GONE);
+                        logoutAndDisconnect();
                     } else {
                         // Show group selection radio to user
                         final String[] groups = new String[loginResponse.groups.length];
@@ -306,7 +310,7 @@ public class LoginActivity extends Activity
                     }
                     mStatus.setText("Login failed!");
                     pb.setVisibility(View.GONE);
-                    String message = "Error occured, please ensure your WiFi is connected.";
+                    String message = "Error occurred, please ensure your WiFi is connected.";
                     if (error.networkResponse != null) {
                         switch (error.networkResponse.statusCode) {
                             case 401:
@@ -323,6 +327,7 @@ public class LoginActivity extends Activity
                         }
                     }
                     Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
+                    logoutAndDisconnect();
                 }
             });
             loginRequest.setShouldCache(false);
@@ -359,7 +364,7 @@ public class LoginActivity extends Activity
                         Toast.makeText(LoginActivity.this, "Error : fetching content, please try again...", Toast.LENGTH_LONG).show();
                         mStatus.setText("Login failed!");
                         pb.setVisibility(View.GONE);
-                        //TODO: logout from google!
+                        logoutAndDisconnect();
                     } else {
                         // Show group selection radio to user
                         LoginDetails loginDetails = new LoginDetails();
@@ -398,6 +403,7 @@ public class LoginActivity extends Activity
                         }
                     }
                     Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
+                    logoutAndDisconnect();
                 }
             });
             fetchContentRequest.setShouldCache(false);

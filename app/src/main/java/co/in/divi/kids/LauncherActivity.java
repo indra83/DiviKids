@@ -14,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ public class LauncherActivity extends Activity implements SessionProvider.Sessio
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         sessionProvider = SessionProvider.getInstance(this);
         setContentView(R.layout.activity_launcher);
         pager = (ViewPager) findViewById(R.id.pager);
@@ -89,19 +91,6 @@ public class LauncherActivity extends Activity implements SessionProvider.Sessio
 
     @Override
     public void onBackPressed() {
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        View decorView = getWindow().getDecorView();
-// Hide the status bar.
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
-// Remember that you should never show the action bar if the
-// status bar is hidden, so hide that too if necessary.
-        ActionBar actionBar = getActionBar();
-        actionBar.hide();
     }
 
     @Override

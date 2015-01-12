@@ -2,12 +2,17 @@ package co.in.divi.kids;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.util.LruCache;
 
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
 import java.util.UUID;
+
+import co.in.divi.kids.util.LruBitmapCache;
 
 /**
  * Created by indraneel on 01-12-2014.
@@ -24,6 +29,7 @@ public class DiviKidsApplication extends Application {
     // Must be Application Level (not user level)
     private UUID uuid = null;
     private RequestQueue requestQueue;
+    private ImageLoader mImageLoader;
     private LoginDetails loginDetails;
 
     public static DiviKidsApplication get() {
@@ -35,12 +41,17 @@ public class DiviKidsApplication extends Application {
         super.onCreate();
         instance = this;
         requestQueue = Volley.newRequestQueue(this);
+        mImageLoader = new ImageLoader(requestQueue, new LruBitmapCache(
+                LruBitmapCache.getCacheSize(this)));
     }
 
     public RequestQueue getRequestQueue() {
         return requestQueue;
     }
 
+    public ImageLoader getmImageLoader() {
+        return mImageLoader;
+    }
     public String deviceId() {
         if (uuid == null) {
             final SharedPreferences prefs = getSharedPreferences(PREFS_FILE, 0);

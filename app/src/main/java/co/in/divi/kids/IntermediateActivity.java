@@ -5,8 +5,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import co.in.divi.kids.session.Session;
 import co.in.divi.kids.session.SessionProvider;
@@ -26,10 +28,9 @@ public class IntermediateActivity extends Activity {
     private Runnable launchLauncherRunnable = new Runnable() {
         @Override
         public void run() {
-            Intent startMain = new Intent(Intent.ACTION_MAIN);
-            startMain.addCategory(Intent.CATEGORY_HOME);
-            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(startMain);
+            Util.debugDefaultHome(IntermediateActivity.this);
+            Util.launchLauncherChooser(IntermediateActivity.this);
+            Util.debugDefaultHome(IntermediateActivity.this);
         }
     };
 
@@ -47,33 +48,33 @@ public class IntermediateActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        Util.debugDefaultHome(this);
         if (sessionProvider.isActive()) {
-            Intent startMain = new Intent(Intent.ACTION_MAIN);
-            startMain.addCategory(Intent.CATEGORY_HOME);
-            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(startMain);
+            Util.launchLauncher(this);
             return;
         }
         if (!sessionProvider.isNew()) {
             finish();
         }
-        Util.disableLauncher(this);
+//        Util.disableLauncher(this);
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Util.enableLauncher(IntermediateActivity.this);
 
+                Util.debugDefaultHome(IntermediateActivity.this);
                 handler.removeCallbacks(launchLauncherRunnable);
                 if (pd != null)
                     pd.cancel();
                 pd = ProgressDialog.show(IntermediateActivity.this, "Starting session", "Please wait while Kids' safe session is started..");
-                handler.postDelayed(launchLauncherRunnable, 2000);
+                handler.postDelayed(launchLauncherRunnable, 1000);
             }
         });
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sessionProvider.setSession(Session.getNullSession());
+                startActivity(new Intent(IntermediateActivity.this, HomeActivity.class));
                 finish();
             }
         });
@@ -81,14 +82,27 @@ public class IntermediateActivity extends Activity {
 
     @Override
     protected void onPause() {
+        Log.d(TAG, "onPause");
         super.onPause();
     }
 
     @Override
     protected void onStop() {
+        Log.d(TAG, "onStop");
         super.onStop();
         if (pd != null)
             pd.cancel();
         handler.removeCallbacks(launchLauncherRunnable);
+        if (sessionProvider.isNew()) {
+            if (Util.isLauncherDefault(this)) {
+                Log.d(TAG, "all set!");
+                sessionProvider.setSessionActive();
+            } else {
+                Toast.makeText(this, "Please set DiviKids as default app or cancel.", Toast.LENGTH_LONG).show();
+                Log.w(TAG, "default not set!");
+                Intent relaunchIntermediateIntent = new Intent(this, IntermediateActivity.class);
+                startActivity(relaunchIntermediateIntent);
+            }
+        }
     }
 }

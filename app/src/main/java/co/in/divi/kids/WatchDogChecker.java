@@ -46,5 +46,6 @@ public class WatchDogChecker extends BroadcastReceiver {
         Intent i = new Intent(context, WatchDogChecker.class);
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
         mgr.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + INITIAL_DELAY, PERIOD, pi);
+        context.startService(new Intent(context, WatchDogService.class));
     }
 }
