@@ -4,20 +4,10 @@
     android:layout_height="match_parent"
     tools:context=".YouTubePlayerActivity">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:textAppearance="?android:textAppearanceLarge"
-        android:text="YouTube Player"
-        android:gravity="center" />
-
     <fragment
         android:id="@+id/youtube_fragment"
         android:name="com.google.android.youtube.player.YouTubePlayerFragment"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@id/title" />
+        android:layout_height="fill_parent" />
 
 </RelativeLayout>

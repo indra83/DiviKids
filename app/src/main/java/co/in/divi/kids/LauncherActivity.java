@@ -11,9 +11,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.PagerTabStrip;
+import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.text.InputType;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -57,7 +60,10 @@ public class LauncherActivity extends Activity implements SessionProvider.Sessio
         setContentView(R.layout.activity_launcher);
         pager = (ViewPager) findViewById(R.id.pager);
         timer = (CountDownTimerView) findViewById(R.id.timer);
-//        endSession = (Button) findViewById(R.id.end_session);
+//        PagerTabStrip titleStrip = (PagerTabStrip)findViewById(R.id.titlestrip);
+//        titleStrip.setTabIndicatorColorResource(R.color.blue);
+//        titleStrip.setTextSize(TypedValue.COMPLEX_UNIT_DIP,20);
+//        titleStrip.setTextColor(getResources().getColor(R.color.blue));
         pagerAdapter = new LauncherPagerAdapter(getFragmentManager());
         pager.setAdapter(pagerAdapter);
     }
@@ -128,8 +134,12 @@ public class LauncherActivity extends Activity implements SessionProvider.Sessio
                 new AlertDialog.Builder(LauncherActivity.this).setTitle("Enter PIN").setView(pinText).setPositiveButton("End Session", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (Integer.parseInt(pinText.getText().toString()) == 1111) {
-                            sessionProvider.setSession(Session.getNullSession());
+                        try {
+                            if (Integer.parseInt(pinText.getText().toString()) == 1111) {
+                                sessionProvider.setSession(Session.getNullSession());
+                            }
+                        } catch (Exception e) {
+                            Log.w(TAG, "error?", e);
                         }
                     }
                 }).show();

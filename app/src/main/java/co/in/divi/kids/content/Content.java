@@ -5,6 +5,8 @@ package co.in.divi.kids.content;
  * JSON marshalling!
  */
 public class Content {
+    public String title;
+    public String summary;
     public int versionCode;
     public String versionString;
 

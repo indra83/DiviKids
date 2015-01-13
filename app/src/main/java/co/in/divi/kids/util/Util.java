@@ -9,6 +9,7 @@ import android.util.Log;
 
 import co.in.divi.kids.DummyActivity;
 import co.in.divi.kids.LauncherActivity;
+import co.in.divi.kids.R;
 
 /**
  * Created by indraneel on 01-12-2014.
@@ -16,9 +17,29 @@ import co.in.divi.kids.LauncherActivity;
 public final class Util {
     private static final String TAG = Util.class.getSimpleName();
 
-    public static String getYouTubeThumbUrl(String youtubeId) {
-        return "http://img.youtube.com/vi/"+youtubeId+"/hqdefault.jpg";
+    public static int getCategoryHex(int index) {
+        switch (index % 6) {
+            case 0:
+                return R.drawable.hex_cat_blue;
+            case 1:
+                return R.drawable.hex_cat_pink;
+            case 2:
+                return R.drawable.hex_cat_sky;
+            case 3:
+                return R.drawable.hex_cat_grey;
+            case 4:
+                return R.drawable.hex_cat_yellow;
+            case 5:
+                return R.drawable.hex_cat_turq;
+
+        }
+        return -1;
     }
+
+    public static String getYouTubeThumbUrl(String youtubeId) {
+        return "http://img.youtube.com/vi/" + youtubeId + "/hqdefault.jpg";
+    }
+
     public static boolean isLauncherDefault(Context context) {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_HOME);

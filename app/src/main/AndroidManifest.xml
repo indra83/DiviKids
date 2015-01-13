@@ -24,7 +24,8 @@
 
         <activity
             android:name=".HomeActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,8 +43,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".AppsSetupActivity" />
-        <activity android:name=".YouTubePlayerActivity" />
+        <activity
+            android:name=".AppsSetupActivity"
+            android:parentActivityName="co.in.divi.kids.HomeActivity" />
+        <activity
+            android:name=".YouTubePlayerActivity"
+            android:parentActivityName=".LauncherActivity" />
         <activity android:name=".LearnActivity" />
         <activity android:name=".LoginActivity" />
         <activity

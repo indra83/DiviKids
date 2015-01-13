@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import java.util.HashSet;
 
 import co.in.divi.kids.content.Content;
 import co.in.divi.kids.content.DiviKidsContentProvider;
+import co.in.divi.kids.util.Util;
 
 /**
  * Created by indraneel on 02-12-2014.
@@ -36,18 +38,25 @@ public class AppsSetupActivity extends Activity {
     private HashSet<String> installedAppPackages = new HashSet<String>();
     private FetchContentTask fetchContentTask;
 
+    boolean initialized = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActionBar().setBackgroundDrawable(new ColorDrawable(0xff3b76de));
+        getActionBar().setIcon(R.drawable.ic_action_logo);
         setContentView(R.layout.activity_apps_setup);
         appsList = (ExpandableListView) findViewById(R.id.appsList);
+        appsList.setGroupIndicator(null);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        fetchContentTask = new FetchContentTask();
-        fetchContentTask.execute((Void[]) null);
+        if (!initialized) {
+            fetchContentTask = new FetchContentTask();
+            fetchContentTask.execute((Void[]) null);
+        }
     }
 
     @Override
@@ -129,6 +138,8 @@ public class AppsSetupActivity extends Activity {
             }
             TextView nameView = (TextView) convertView.findViewById(R.id.name);
             TextView statusView = (TextView) convertView.findViewById(R.id.status);
+            ImageView iconView = (ImageView) convertView.findViewById(R.id.icon);
+            iconView.setImageResource(Util.getCategoryHex(groupPosition));
             nameView.setText(cat.name);
             statusView.setText("" + installed + " of " + total + " apps installed");
             return convertView;
@@ -196,6 +207,7 @@ public class AppsSetupActivity extends Activity {
             appsAdapter = new AppsAdapter();
             appsList.setAdapter(appsAdapter);
             appsAdapter.notifyDataSetChanged();
+            initialized = true;
         }
     }
 }

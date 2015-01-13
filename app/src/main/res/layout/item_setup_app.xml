@@ -1,28 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="horizontal"
     android:padding="@dimen/activity_horizontal_margin">
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="@dimen/app_icon_width"
-        android:layout_height="@dimen/app_icon_height" />
+        android:layout_width="@dimen/appsetup_app_icon_width"
+        android:layout_height="@dimen/appsetup_app_icon_width"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside" />
 
     <TextView
+        android:id="@+id/label"
+        style="@style/appsetup_app_title"
         android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_marginLeft="5dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:singleLine="false"
-        android:id="@+id/label" />
+        android:layout_weight="1"
+        android:singleLine="false" />
 
     <Button
         android:id="@+id/install_button"
-        android:text="Install"
-        android:layout_gravity="center_vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="Install" />
 
 </LinearLayout>

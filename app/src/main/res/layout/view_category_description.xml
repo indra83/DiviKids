@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<co.in.divi.kids.ui.CategoryDescription xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="@dimen/appsetup_group_icon_width"
+            android:layout_height="@dimen/appsetup_group_icon_width"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside" />
+
+        <TextView
+            android:id="@+id/title_text"
+            style="@style/appsetup_cat_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/category_summary"
+        android:visibility="gone"
+        style="@style/learn_cat_summary"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+</co.in.divi.kids.ui.CategoryDescription>
