@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
@@ -217,6 +218,10 @@ public class LoginActivity extends Activity
         // Reaching onConnected means we consider the user signed in.
         Log.i(TAG, "onConnected");
         if (getIntent().getBooleanExtra(INTENT_EXTRA_LOGOUT, false)) {
+            ((DiviKidsApplication) getApplication()).getTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory(getString(R.string.category_login))
+                    .setAction("Logout")
+                    .build());
             getIntent().removeExtra(INTENT_EXTRA_LOGOUT);
             Toast.makeText(this, "Logging out...", Toast.LENGTH_LONG).show();
             logoutAndDisconnect();
@@ -257,6 +262,11 @@ public class LoginActivity extends Activity
     }
 
     private void performDiviLogin(String id, String name, String email) {
+        ((DiviKidsApplication) getApplication()).getTracker().send(new HitBuilders.EventBuilder()
+                .setCategory(getString(R.string.category_login))
+                .setAction("Login")
+                .build());
+
         try {
             JSONObject jsonRequest = new JSONObject();
             jsonRequest.put("googleId", id);
@@ -283,6 +293,11 @@ public class LoginActivity extends Activity
                         pb.setVisibility(View.GONE);
                         logoutAndDisconnect();
                     } else {
+                        ((DiviKidsApplication) getApplication()).getTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory(getString(R.string.category_login))
+                                .setAction("DiviLogin")
+                                .build());
+
                         // Show group selection radio to user
                         final String[] groups = new String[loginResponse.groups.length];
                         for (int i = 0; i < loginResponse.groups.length; i++) {
@@ -366,6 +381,12 @@ public class LoginActivity extends Activity
                         pb.setVisibility(View.GONE);
                         logoutAndDisconnect();
                     } else {
+                        ((DiviKidsApplication) getApplication()).getTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory(getString(R.string.category_login))
+                                .setAction("Content")
+                                .setLabel(groupId)
+                                .build());
+
                         // Show group selection radio to user
                         LoginDetails loginDetails = new LoginDetails();
                         loginDetails.userId = userId;

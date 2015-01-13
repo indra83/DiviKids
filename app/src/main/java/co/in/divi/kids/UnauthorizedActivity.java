@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Window;
+import android.view.WindowManager;
+
+import co.in.divi.kids.session.SessionProvider;
+import co.in.divi.kids.util.Util;
 
 /**
  * Created by Indra on 1/12/2015.
@@ -24,6 +28,7 @@ public class UnauthorizedActivity extends Activity {
             } catch (Exception e) {
                 Log.w(TAG, "error", e);
             }
+            finish();
         }
     };
 
@@ -31,9 +36,9 @@ public class UnauthorizedActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_unauthorized);
         handler = new Handler();
-        getActionBar().hide();
     }
 
     @Override

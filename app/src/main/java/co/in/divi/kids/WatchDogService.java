@@ -96,9 +96,6 @@ public class WatchDogService extends Service implements SessionProvider.SessionC
     private void lockNow() {
         Log.w(TAG, "locking!");
         if (sessionProvider.isActive()) {
-//            Intent startMain = new Intent(this, LauncherActivity.class);
-//            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            startActivity(startMain);
             Intent startMain = new Intent(this, UnauthorizedActivity.class);
             startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startMain);
@@ -108,7 +105,6 @@ public class WatchDogService extends Service implements SessionProvider.SessionC
     }
 
     class DaemonThread extends Thread {
-        // state data
 //        private boolean isLockingEnabled = false;
         private long suspiciousActivityStart = 0L;
         private String sessionId;

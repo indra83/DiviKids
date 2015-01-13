@@ -60,11 +60,9 @@ public final class Util {
     }
 
     public static void launchLauncher(Context context) {
-//        Intent startMain = new Intent(Intent.ACTION_MAIN);
-//        startMain.addCategory(Intent.CATEGORY_HOME);
         Intent startMain = new Intent(context, LauncherActivity.class);
         startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(Intent.createChooser(startMain, "Choose DiviKids..."));
+        context.startActivity(startMain);
     }
 
     public static long getTimestampMillis() {

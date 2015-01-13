@@ -49,7 +49,6 @@ public class LauncherActivity extends Activity implements SessionProvider.Sessio
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getActionBar().setBackgroundDrawable(new ColorDrawable(0xff3b76de));
         getActionBar().setIcon(R.drawable.ic_action_logo);

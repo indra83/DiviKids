@@ -50,7 +50,14 @@ public class IntermediateActivity extends Activity {
         super.onResume();
         Util.debugDefaultHome(this);
         if (sessionProvider.isActive()) {
-            Util.launchLauncher(this);
+            try {
+                Util.launchLauncher(this);
+            } catch (Exception e) {
+                Log.w(TAG, "Launcher open failed, cancel session", e);
+                sessionProvider.setSession(Session.getNullSession());
+                startActivity(new Intent(IntermediateActivity.this, HomeActivity.class));
+                finish();
+            }
             return;
         }
         if (!sessionProvider.isNew()) {

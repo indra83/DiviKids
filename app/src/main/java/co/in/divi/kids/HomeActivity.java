@@ -69,6 +69,8 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
     private Content content;
     private HashSet<String> installedAppPackages;
 
+    private boolean sentToLoginScreen = false;
+
     // state
     private enum CONTENT_TYPE {
         RANDOM, CATEGORY, FOCUS
@@ -186,10 +188,15 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
     protected void onStart() {
         super.onStart();
         if (DiviKidsApplication.get().getLoginDetails() == null) {
-            Intent loginIntent = new Intent(this, LoginActivity.class);
-            startActivity(loginIntent);
-            finish();
-            return;
+            if (sentToLoginScreen) {
+                finish();
+                return;
+            } else {
+                sentToLoginScreen = true;
+                Intent loginIntent = new Intent(this, LoginActivity.class);
+                startActivity(loginIntent);
+                return;
+            }
         }
         sessionProvider.addSessionChangeListener(this);
         IntentFilter intentFilter = new IntentFilter();
@@ -199,7 +206,7 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
         registerReceiver(appInstallReceiver, intentFilter);
 
         pinInput.setText("" + sessionProvider.getUnlockPin());
-//        startButton.setEnabled(false);
+        startButton.setEnabled(false);
         refreshContentView();
         refreshContent();
     }
@@ -599,6 +606,7 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
             }
             setupText.setText("Apps installed " + installedApps + " of " + totalApps);
             appsSetupButton.setEnabled(true);
+            startButton.setEnabled(true);
             content = c;
         }
     }
