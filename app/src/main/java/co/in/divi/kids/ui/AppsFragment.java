@@ -15,6 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+
+import co.in.divi.kids.DiviKidsApplication;
 import co.in.divi.kids.LauncherActivity;
 import co.in.divi.kids.R;
 import co.in.divi.kids.content.Content;
@@ -53,6 +56,12 @@ public class AppsFragment extends Fragment {
                     Log.w(TAG, "error launching app", e);
                     Toast.makeText(getActivity(), "Error launching app!", Toast.LENGTH_SHORT).show();
                 }
+                DiviKidsApplication application = (DiviKidsApplication) getActivity().getApplication();
+                application.getTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory(getString(R.string.category_usage))
+                        .setAction("App")
+                        .setLabel(app.packageName)
+                        .build());
             }
         });
     }

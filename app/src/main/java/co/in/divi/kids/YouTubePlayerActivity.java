@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
@@ -57,6 +58,12 @@ public class YouTubePlayerActivity extends Activity {
                     @Override
                     public void onLoaded(String s) {
                         youTubePlayer.play();
+                        DiviKidsApplication application = (DiviKidsApplication) getApplication();
+                        application.getTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory(getString(R.string.category_usage))
+                                .setAction("Video")
+                                .setLabel(youtubeId)
+                                .build());
                     }
 
                     @Override

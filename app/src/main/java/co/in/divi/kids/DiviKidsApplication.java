@@ -89,7 +89,7 @@ public class DiviKidsApplication extends Application {
     // analytics stuff
     Tracker tracker;
 
-    synchronized Tracker getTracker() {
+    public synchronized Tracker getTracker() {
         if (tracker == null) {
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
             tracker = analytics.newTracker(R.xml.global_tracker);

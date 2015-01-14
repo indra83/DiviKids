@@ -19,6 +19,8 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+
 import java.util.HashSet;
 
 import co.in.divi.kids.content.Content;
@@ -174,6 +176,13 @@ public class AppsSetupActivity extends Activity {
                                                          Intent intent = new Intent(Intent.ACTION_VIEW);
                                                          intent.setData(Uri.parse(appUrl));
                                                          startActivity(intent);
+
+                                                         ((DiviKidsApplication) getApplication()).getTracker().send(new HitBuilders.EventBuilder()
+                                                                 .setCategory(getString(R.string.category_appssetup))
+                                                                 .setAction("Install")
+                                                                 .setLabel(app.packageName)
+                                                                 .build());
+
                                                      }
                                                  }
 
@@ -208,6 +217,11 @@ public class AppsSetupActivity extends Activity {
             appsList.setAdapter(appsAdapter);
             appsAdapter.notifyDataSetChanged();
             initialized = true;
+            ((DiviKidsApplication) getApplication()).getTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory(getString(R.string.category_appssetup))
+                    .setAction("View")
+                    .build());
+
         }
     }
 }

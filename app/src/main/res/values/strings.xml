@@ -9,13 +9,18 @@
     <string name="category">Choose category</string>
     <string name="focus">Focus on 1 App</string>
 
-    <string name="choose_category_title">Pick a category</string>
+    <string name="choose_category_title">Choose Learning Area</string>
     <string name="action_learn">Learn about categories</string>
     <string name="action_stats">Stats</string>
     <string name="action_share">Tell friends about DiviKids</string>
     <string name="action_add">Add an app/video</string>
     <string name="action_logout"><![CDATA[Logout & disconnect G+]]></string>
     <string name="action_exit">Exit</string>
+
+    <!-- Google Analytics -->
     <string name="category_login">Accounts</string>
+    <string name="category_appssetup">Apps Setup</string>
+    <string name="category_session">Session</string>
+    <string name="category_usage">Usage</string>
 
 </resources>

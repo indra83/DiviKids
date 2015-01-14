@@ -20,7 +20,7 @@
 
         <TextView
             android:id="@+id/title_text"
-            style="@style/appsetup_cat_title"
+            style="@style/learn_cat_title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical" />

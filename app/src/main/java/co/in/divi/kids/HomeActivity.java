@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
@@ -27,6 +28,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -34,6 +37,7 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -70,6 +74,7 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
     private HashSet<String> installedAppPackages;
 
     private boolean sentToLoginScreen = false;
+    private static boolean showAppSetupScreen = true;
 
     // state
     private enum CONTENT_TYPE {
@@ -77,7 +82,9 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
     }
 
     private CONTENT_TYPE contentType = CONTENT_TYPE.RANDOM;
-    private String categoryId, appId;
+    private String categoryName, appName;
+    private Content.App selectedApp;
+    private Content.SubCategory selectedSubCat;
 
 
     private BroadcastReceiver appInstallReceiver = new BroadcastReceiver() {
@@ -97,7 +104,7 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
         setContentView(R.layout.activity_home);
         getActionBar().setBackgroundDrawable(new ColorDrawable(0xff3b76de));
         getActionBar().setIcon(R.drawable.ic_action_logo);
-        getActionBar().hide();
+//        getActionBar().hide();
         // overlay
         setupOverlay = findViewById(R.id.apps_setup_overlay);
         overlayProgressActual = findViewById(R.id.overlay_apps_progress_actual);
@@ -209,6 +216,11 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
         startButton.setEnabled(false);
         refreshContentView();
         refreshContent();
+
+        if (!showAppSetupScreen) {
+            overlayNextButton.performClick();
+        } else
+            showAppSetupScreen = false;
     }
 
     @Override
@@ -295,19 +307,18 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
                 catIndex = rand.nextInt(content.categories.length);
                 break;
             case CATEGORY:
-                int i = 0;
-                for (Content.Category cat : content.categories) {
-                    if (cat.id.equalsIgnoreCase(categoryId))
-                        break;
-                    i++;
+                for (Content.App app : selectedSubCat.apps) {
+                    if (installedAppPackages.contains(app.packageName))
+                        apps.add(app);
                 }
-                catIndex = i;
+                for (Content.Video vid : selectedSubCat.videos)
+                    videos.add(vid);
                 break;
             case FOCUS:
                 for (Content.Category cat : content.categories) {
                     for (Content.SubCategory subCat : cat.subCategories) {
                         for (Content.App app : subCat.apps) {
-                            if (app.packageName.equalsIgnoreCase(appId)) {
+                            if (app.packageName.equalsIgnoreCase(selectedApp.packageName)) {
                                 apps.add(app);
                                 break;
                             }
@@ -316,18 +327,13 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
                 }
                 break;
         }
-        if (catIndex >= 0) {
-            for (Content.SubCategory subCat : content.categories[catIndex].subCategories) {
-                for (Content.App app : subCat.apps) {
-                    if (installedAppPackages.contains(app.packageName))
-                        apps.add(app);
-                }
-                for (Content.Video video : subCat.videos) {
-                    videos.add(video);
-                }
-            }
-        }
         sessionProvider.setSession(new Session(time, apps.toArray(new Content.App[apps.size()]), videos.toArray(new Content.Video[videos.size()])));
+        ((DiviKidsApplication) getApplication()).getTracker().send(new HitBuilders.EventBuilder()
+                .setCategory(getString(R.string.category_session))
+                .setAction("Create")
+                .setLabel(contentType.toString())
+                .build());
+
     }
 
     private void refreshContent() {
@@ -370,21 +376,28 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
                     case 1:
                         final CategoryAdapter adapter = new CategoryAdapter(content);
                         AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+                        ExpandableListView listView = new ExpandableListView(HomeActivity.this);
+                        listView.setGroupIndicator(null);
+                        listView.setAdapter(adapter);
                         builder.setTitle(R.string.choose_category_title)
-                                .setAdapter(adapter, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        contentType = CONTENT_TYPE.CATEGORY;
-                                        categoryId = ((Content.Category) adapter.getItem(i)).id;
-                                    }
-                                });
-                        AlertDialog dialog = builder.create();
+                                .setView(listView);
+                        final AlertDialog dialog = builder.create();
                         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialogInterface) {
                                 refreshContentView();
                             }
                         });
+                        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                            @Override
+                            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                                contentType = CONTENT_TYPE.CATEGORY;
+                                selectedSubCat = (Content.SubCategory) parent.getExpandableListAdapter().getChild(groupPosition, childPosition);
+                                dialog.dismiss();
+                                return false;
+                            }
+                        });
+
                         dialog.show();
                         break;
                     case 2:
@@ -395,8 +408,8 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         contentType = CONTENT_TYPE.FOCUS;
-                                        categoryId = null;
-                                        appId = ((Content.App) appsAdapter.getItem(i)).name;
+                                        selectedApp = ((Content.App) appsAdapter.getItem(i));
+                                        appName = ((Content.App) appsAdapter.getItem(i)).name;
                                     }
                                 });
                         AlertDialog dialog2 = builder2.create();
@@ -421,10 +434,10 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
                 contentSelector.setText("Random category");
                 break;
             case CATEGORY:
-                contentSelector.setText("Selected category:" + categoryId);
+                contentSelector.setText("Learning Area :" + selectedSubCat.name);
                 break;
             case FOCUS:
-                contentSelector.setText("Focus app:" + appId);
+                contentSelector.setText("Focus app:" + selectedApp.name);
                 break;
         }
     }
@@ -443,37 +456,114 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
         checkSession();
     }
 
-    private class CategoryAdapter extends BaseAdapter {
+    private class CategoryAdapter implements ExpandableListAdapter {
         Content content;
-        LayoutInflater li;
+        LayoutInflater inflater;
 
         public CategoryAdapter(Content c) {
             this.content = c;
-            li = getLayoutInflater();
+            inflater = getLayoutInflater();
         }
 
         @Override
-        public int getCount() {
+        public int getChildrenCount(int i) {
+            return content.categories[i].subCategories.length;
+        }
+
+        @Override
+        public void registerDataSetObserver(DataSetObserver dataSetObserver) {
+        }
+
+        @Override
+        public void unregisterDataSetObserver(DataSetObserver dataSetObserver) {
+        }
+
+        @Override
+        public int getGroupCount() {
             return content.categories.length;
         }
 
         @Override
-        public Object getItem(int i) {
-            return content.categories[i];
+        public Object getChild(int groupPosition, int childPosition) {
+            return content.categories[groupPosition].subCategories[childPosition];
         }
 
         @Override
-        public long getItemId(int i) {
-            return i;
+        public Object getGroup(int groupPosition) {
+            return content.categories[groupPosition];
         }
 
         @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            if (view == null) {
-                view = li.inflate(android.R.layout.simple_list_item_1, viewGroup, false);
+        public long getGroupId(int i) {
+            return 0;
+        }
+
+        @Override
+        public long getChildId(int i, int i2) {
+            return 0;
+        }
+
+        @Override
+        public boolean hasStableIds() {
+            return false;
+        }
+
+        @Override
+        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+            Content.Category cat = (Content.Category) getGroup(groupPosition);
+            if (convertView == null) {
+                convertView = inflater.inflate(R.layout.item_setup_group, parent, false);
             }
-            ((TextView) view.findViewById(android.R.id.text1)).setText(((Content.Category) getItem(i)).name);
-            return view;
+            TextView nameView = (TextView) convertView.findViewById(R.id.name);
+            TextView statusView = (TextView) convertView.findViewById(R.id.status);
+            ImageView iconView = (ImageView) convertView.findViewById(R.id.icon);
+            iconView.setImageResource(Util.getCategoryHex(groupPosition));
+            nameView.setText(cat.name);
+            statusView.setVisibility(View.GONE);
+            return convertView;
+        }
+
+        @Override
+        public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+            final Content.SubCategory subCategory = (Content.SubCategory) getChild(groupPosition, childPosition);
+            if (convertView == null) {
+                convertView = inflater.inflate(R.layout.item_subcat, parent, false);
+            }
+            ((TextView) convertView.findViewById(R.id.label)).setText(subCategory.name);
+            return convertView;
+        }
+
+        @Override
+        public boolean isChildSelectable(int i, int i2) {
+            return true;
+        }
+
+        @Override
+        public boolean areAllItemsEnabled() {
+            return true;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return false;
+        }
+
+        @Override
+        public void onGroupExpanded(int i) {
+        }
+
+        @Override
+        public void onGroupCollapsed(int i) {
+        }
+
+        @Override
+        public long getCombinedChildId(long l, long l2) {
+            return 0;
+        }
+
+        @Override
+        public long getCombinedGroupId(long l) {
+            return 0;
         }
     }
 
@@ -604,10 +694,26 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
                     }
                 }
             }
+            overlayAppsText.setText("" + installedApps + " apps installed out of " + totalApps);
+            float weightLeft = (1.0f * installedApps) / totalApps;
+            if (weightLeft < 0.12f) {
+                weightLeft = 0.12f;
+            }
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, weightLeft);
+            LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1.0f - weightLeft);
+            overlayProgressActual.setLayoutParams(lp2);
+            overlayProgressInverse.setLayoutParams(lp);
+
+            // session screen
             setupText.setText("Apps installed " + installedApps + " of " + totalApps);
             appsSetupButton.setEnabled(true);
             startButton.setEnabled(true);
             content = c;
+
+            ((DiviKidsApplication) getApplication()).getTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory(getString(R.string.category_session))
+                    .setAction("Editor Shown")
+                    .build());
         }
     }
 }

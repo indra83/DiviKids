@@ -49,7 +49,9 @@
         <activity
             android:name=".YouTubePlayerActivity"
             android:parentActivityName=".LauncherActivity" />
-        <activity android:name=".LearnActivity" />
+        <activity
+            android:name=".LearnActivity"
+            android:parentActivityName=".HomeActivity" />
         <activity android:name=".LoginActivity" />
         <activity
             android:name=".UnauthorizedActivity"

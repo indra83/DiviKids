@@ -27,6 +27,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+
 import co.in.divi.kids.session.Session;
 import co.in.divi.kids.session.SessionProvider;
 import co.in.divi.kids.ui.AppsFragment;
@@ -103,9 +105,13 @@ public class LauncherActivity extends Activity implements SessionProvider.Sessio
             Intent homeIntent = new Intent(LauncherActivity.this, HomeActivity.class);
             startActivity(homeIntent);
             finish();
-            if (sessionProvider.isNew())
+            if (sessionProvider.isNew()) {
                 Toast.makeText(LauncherActivity.this, "Please set Divi as default", Toast.LENGTH_SHORT).show();
-            else
+                ((DiviKidsApplication) getApplication()).getTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory(getString(R.string.category_session))
+                        .setAction("NotActive")
+                        .build());
+            } else
                 Toast.makeText(this, "Session ended.", Toast.LENGTH_LONG).show();
         } else {
             timer.start(sessionProvider.getSession().startTimestamp + sessionProvider.getSession().duration, "Time left : ", this);
@@ -135,7 +141,7 @@ public class LauncherActivity extends Activity implements SessionProvider.Sessio
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         try {
-                            if (Integer.parseInt(pinText.getText().toString()) == 1111) {
+                            if (Integer.parseInt(pinText.getText().toString()) == sessionProvider.getUnlockPin()) {
                                 sessionProvider.setSession(Session.getNullSession());
                             }
                         } catch (Exception e) {

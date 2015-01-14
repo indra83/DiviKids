@@ -5,10 +5,10 @@
     tools:context=".LearnActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin">
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/title"
@@ -25,10 +25,13 @@
             android:layout_centerInParent="true" />
 
         <LinearLayout
-            android:orientation="vertical"
+            android:id="@+id/categories"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"></LinearLayout>
 
-            </LinearLayout>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="100dp" />
     </LinearLayout>
 </ScrollView>

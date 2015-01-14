@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+
 import co.in.divi.kids.session.Session;
 import co.in.divi.kids.session.SessionProvider;
 import co.in.divi.kids.util.Util;
@@ -104,6 +106,10 @@ public class IntermediateActivity extends Activity {
             if (Util.isLauncherDefault(this)) {
                 Log.d(TAG, "all set!");
                 sessionProvider.setSessionActive();
+                ((DiviKidsApplication) getApplication()).getTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory(getString(R.string.category_session))
+                        .setAction("Active")
+                        .build());
             } else {
                 Toast.makeText(this, "Please set DiviKids as default app or cancel.", Toast.LENGTH_LONG).show();
                 Log.w(TAG, "default not set!");
