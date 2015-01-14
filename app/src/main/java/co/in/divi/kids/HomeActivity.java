@@ -299,12 +299,19 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
         }
         ArrayList<Content.App> apps = new ArrayList<Content.App>();
         ArrayList<Content.Video> videos = new ArrayList<Content.Video>();
-        int catIndex = -1;
         switch (contentType) {
 
             case RANDOM:
                 Random rand = new Random(System.currentTimeMillis());
-                catIndex = rand.nextInt(content.categories.length);
+                int rcatIndex = rand.nextInt(content.categories.length);
+                int rSubcatIndex = rand.nextInt(content.categories[rcatIndex].subCategories.length);
+                Content.SubCategory subCategory = content.categories[rcatIndex].subCategories[rSubcatIndex];
+                for (Content.App app : subCategory.apps) {
+                    if (installedAppPackages.contains(app.packageName))
+                        apps.add(app);
+                }
+                for (Content.Video vid : subCategory.videos)
+                    videos.add(vid);
                 break;
             case CATEGORY:
                 for (Content.App app : selectedSubCat.apps) {

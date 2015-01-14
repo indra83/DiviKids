@@ -3,6 +3,7 @@ package co.in.divi.kids;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -21,6 +22,7 @@ import co.in.divi.kids.util.Util;
  */
 public class IntermediateActivity extends Activity {
     private static final String TAG = IntermediateActivity.class.getSimpleName();
+    public static final String INTENT_EXTRA_RELAUNCH = "INTENT_EXTRA_RELAUNCH ";
 
     private Button okButton, cancelButton;
     private ProgressDialog pd = null;
@@ -40,6 +42,8 @@ public class IntermediateActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_help_def_launcher);
+        getActionBar().setBackgroundDrawable(new ColorDrawable(0xff3b76de));
+        getActionBar().setIcon(R.drawable.ic_action_logo);
         okButton = (Button) findViewById(R.id.gotit);
         cancelButton = (Button) findViewById(R.id.cancel);
 
@@ -111,10 +115,16 @@ public class IntermediateActivity extends Activity {
                         .setAction("Active")
                         .build());
             } else {
-                Toast.makeText(this, "Please set DiviKids as default app or cancel.", Toast.LENGTH_LONG).show();
-                Log.w(TAG, "default not set!");
-                Intent relaunchIntermediateIntent = new Intent(this, IntermediateActivity.class);
-                startActivity(relaunchIntermediateIntent);
+//                if(getIntent().getBooleanExtra(INTENT_EXTRA_RELAUNCH, false)){
+//                    Toast.makeText(this, "Unknown error, please cancel and try again.", Toast.LENGTH_LONG).show();
+//                }else {
+//                    finish();
+//                    Toast.makeText(this, "Please set DiviKids as default app or cancel.", Toast.LENGTH_LONG).show();
+//                    Log.w(TAG, "default not set!");
+//                    Intent relaunchIntermediateIntent = new Intent(this, IntermediateActivity.class);
+//                    relaunchIntermediateIntent.putExtra(INTENT_EXTRA_RELAUNCH, true);
+//                    startActivity(relaunchIntermediateIntent);
+//                }
             }
         }
     }

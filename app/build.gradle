@@ -12,9 +12,14 @@ android {
         versionName "1.0"
     }
     buildTypes {
+        def STRING = "String"
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField STRING, "YOUTUBE_DEVELOPER_KEY", "\"AIzaSyC33mOLBEcX-8XFoanyjqOBX7tqgumDXi4\""
+        }
+        debug {
+            buildConfigField STRING, "YOUTUBE_DEVELOPER_KEY", "\"AIzaSyDmuFQC5-JVNLKqoCOq3hZ7CvJuzTa_IZo\""
         }
     }
 }
