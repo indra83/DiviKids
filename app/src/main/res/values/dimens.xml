@@ -9,6 +9,6 @@
     <dimen name="app_item_height">120dp</dimen>
 
     <!-- AppsSetupActivity -->
-    <dimen name="appsetup_group_icon_width">60dp</dimen>
+    <dimen name="appsetup_group_icon_width">50dp</dimen>
     <dimen name="appsetup_app_icon_width">50dp</dimen>
 </resources>

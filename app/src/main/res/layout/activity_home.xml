@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ext="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@android:color/white">
@@ -25,11 +26,11 @@
 
         <TextView
             android:id="@+id/start_label"
+            style="@style/home_cont_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            style="@style/home_cont_style"
             android:text="Tap to start session" />
 
         <TextView
@@ -50,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/setupText"
             android:layout_alignParentRight="true"
-            android:background="@drawable/bg_apps_setup_n"
+            android:background="@drawable/bg_apps_setup"
             android:gravity="center"
             android:text="Setup Apps"
             android:textColor="@android:color/white"
@@ -100,13 +101,14 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/duration_label"
-            android:background="@drawable/bg_cat_selector">
+            android:background="@drawable/bg_duration_selector">
 
             <SeekBar
                 android:id="@+id/duration_selector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:max="3" />
+                android:paddingTop="3dp"
+                android:max="5" />
         </LinearLayout>
 
         <TextView
@@ -124,7 +126,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/pin_label"
-            android:background="@drawable/bg_cat_selector"
+            android:background="@drawable/bg_pin_selector"
             android:gravity="center_vertical"
             android:inputType="number" />
 
@@ -135,30 +137,30 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@android:color/white"
-        android:clickable="true">
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:visibility="gone"
-            android:scaleType="centerCrop"
-            android:src="@drawable/bg_1" />
+        android:clickable="true"
+        android:padding="@dimen/activity_horizontal_margin">
 
         <TextView
             android:id="@+id/title"
-            android:text = "Install Apps"
             style="@style/home_setupapps_title"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/desc"
-            android:layout_below="@id/title"
-            android:text = "Welcome to Divi Kids! \nPlease setup as many apps possible from our list of curated apps for all round developement of your child."
-            style="@style/home_setupapps_desc"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Install Apps" />
 
-        <LinearLayout android:id="@+id/apps_progress_container"
+        <com.bluejamesbond.text.DocumentView
+            android:id="@+id/desc"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            ext:documentView_hyphen="-"
+            ext:documentView_textAlignment="justified"
+            ext:documentView_textColor="@color/blue1"
+            ext:documentView_textFormat="plain"
+            ext:documentView_textSize="16sp" />
+
+        <LinearLayout
+            android:id="@+id/apps_progress_container"
             android:layout_width="fill_parent"
             android:layout_height="10dp"
             android:layout_below="@id/desc"
@@ -201,17 +203,46 @@
             android:textColor="@color/blue1"
             android:textSize="23sp" />
 
-        <Button
-            android:id="@+id/overlay_setup_apps"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
             android:layout_above="@+id/next"
             android:layout_below="@id/apps_installed_text"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="@dimen/activity_vertical_margin"
-            android:background="@drawable/bg_setup_button1"
-            android:textColor="@color/blue1"
-            android:textSize="22sp"
-            android:text="Setup Apps" />
+            android:orientation="vertical">
+
+            <co.in.divi.kids.ui.SquareLayout
+                android:id="@+id/overlay_setup_apps"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:background="@drawable/bg_setup_button1">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Setup Apps"
+                        android:textColor="@color/blue1"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/remaining_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="blah"
+                        android:textColor="@color/blue1"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </co.in.divi.kids.ui.SquareLayout>
+        </LinearLayout>
     </RelativeLayout>
 </FrameLayout>

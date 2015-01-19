@@ -4,6 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/blue1" />
+
     <LinearLayout
         android:id="@+id/title"
         android:layout_width="fill_parent"
@@ -28,8 +35,8 @@
 
     <TextView
         android:id="@+id/category_summary"
-        android:visibility="gone"
         style="@style/learn_cat_summary"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 </co.in.divi.kids.ui.CategoryDescription>

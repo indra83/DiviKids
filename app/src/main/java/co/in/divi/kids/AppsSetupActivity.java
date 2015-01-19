@@ -143,7 +143,7 @@ public class AppsSetupActivity extends Activity {
             ImageView iconView = (ImageView) convertView.findViewById(R.id.icon);
             iconView.setImageResource(Util.getCategoryHex(groupPosition));
             nameView.setText(cat.name);
-            statusView.setText("" + installed + " of " + total + " apps installed");
+            statusView.setText("" + installed + " of " + total + " installed");
             return convertView;
         }
 

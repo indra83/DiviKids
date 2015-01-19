@@ -20,6 +20,7 @@
 # Gson uses generic type information stored in a class file when working with
 #fields. Proguard removes such information by default, so configure it to keep
 #all of it.
+-dontskipnonpubliclibraryclassmembers
 -keepattributes Signature
 
 # For using GSON @Expose annotation
@@ -31,6 +32,9 @@
 
 # Application classes that will be serialized/deserialized over Gson
 -keep class com.google.gson.examples.android.model.** { *; }
+
+# Library
+-dontwarn com.bluejamesbond.**
 
 ##---------------End: proguard configuration for Gson ----------
 -keep class co.in.divi.kids.content.Content { *; }

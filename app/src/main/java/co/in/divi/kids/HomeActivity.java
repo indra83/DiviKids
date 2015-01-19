@@ -37,6 +37,8 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.bluejamesbond.text.DocumentView;
+import com.bluejamesbond.text.style.TextAlignment;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.gson.Gson;
 
@@ -56,8 +58,9 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
     private static final String TAG = HomeActivity.class.getSimpleName();
 
     private View setupOverlay, overlayProgressActual, overlayProgressInverse;
-    private TextView overlayAppsText;
-    private Button overlayAppsSetupButton, overlayNextButton;
+    private TextView overlayAppsText, overlayAppsLeft;
+    private View overlayAppsSetupButton;
+    private Button overlayNextButton;
 
     private TextView setupText, durationText, appsSetupButton;
     private ImageView startButton;
@@ -110,12 +113,18 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
         overlayProgressActual = findViewById(R.id.overlay_apps_progress_actual);
         overlayProgressInverse = findViewById(R.id.overlay_apps_progress_inverse);
         overlayAppsText = (TextView) findViewById(R.id.apps_installed_text);
-        overlayAppsSetupButton = (Button) findViewById(R.id.overlay_setup_apps);
+        overlayAppsLeft = (TextView) findViewById(R.id.remaining_text);
+        overlayAppsSetupButton = findViewById(R.id.overlay_setup_apps);
         overlayNextButton = (Button) findViewById(R.id.next);
+
+        DocumentView documentView = (DocumentView) findViewById(R.id.desc); //new DocumentView(this, DocumentView.PLAIN_TEXT);  // Support plain text
+        documentView.getDocumentLayoutParams().setTextAlignment(TextAlignment.JUSTIFIED);
+        documentView.setText("Welcome to Divi Kids! \nPlease setup as many apps possible from our list of curated apps for all round development of your child.");
 
         overlayNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showAppSetupScreen = false;
                 setupOverlay.setVisibility(View.GONE);
                 getActionBar().show();
             }
@@ -170,10 +179,16 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
                         durationText.setText("Duration: 20 minutes");
                         break;
                     case 2:
-                        durationText.setText("Duration: 1 Hour");
+                        durationText.setText("Duration: 40 minutes");
                         break;
                     case 3:
-                        durationText.setText("Duration: Till I turn off");
+                        durationText.setText("Duration: 1 Hour");
+                        break;
+                    case 4:
+                        durationText.setText("Duration: 2 Hours");
+                        break;
+                    case 5:
+                        durationText.setText("Duration: 3 Hours");
                         break;
                 }
             }
@@ -219,8 +234,7 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
 
         if (!showAppSetupScreen) {
             overlayNextButton.performClick();
-        } else
-            showAppSetupScreen = false;
+        }
     }
 
     @Override
@@ -251,9 +265,8 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_stats:
-                //TODO:
-                return true;
+//            case R.id.action_stats:
+//                return true;
             case R.id.action_learn:
                 Intent learnCatIntent = new Intent(HomeActivity.this, LearnActivity.class);
                 startActivity(learnCatIntent);
@@ -291,10 +304,16 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
                 time = 20 * 60 * 1000;
                 break;
             case 2:
-                time = 60 * 60 * 1000;
+                time = 40 * 60 * 1000;
                 break;
             case 3:
-                time = Long.MAX_VALUE;
+                time = 60 * 60 * 1000;
+                break;
+            case 4:
+                time = 2 * 60 * 60 * 1000;
+                break;
+            case 5:
+                time = 3 * 60 * 60 * 1000;
                 break;
         }
         ArrayList<Content.App> apps = new ArrayList<Content.App>();
@@ -638,6 +657,7 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
             setupText.setText("Scanning apps...");
             appsSetupButton.setEnabled(false);
             overlayAppsText.setText("Scanning apps...");
+            overlayAppsLeft.setText("Computing");
         }
 
         @Override
@@ -675,7 +695,8 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
         protected void onProgressUpdate(Integer... values) {
             int totalApps = values[0];
             int installedApps = values[1];
-            overlayAppsText.setText("" + installedApps + " apps installed out of " + totalApps);
+            overlayAppsText.setText(Html.fromHtml("<font color=\"#006400\">" + installedApps + "</font> apps installed out of <font color='#4aaeef'>" + totalApps + "</font>"), TextView.BufferType.SPANNABLE);
+            overlayAppsLeft.setText("" + (totalApps - installedApps) + " left");
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, (1.0f * installedApps) / totalApps);
             LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1.0f - (1.0f * installedApps) / totalApps);
             overlayProgressActual.setLayoutParams(lp2);
@@ -701,7 +722,7 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
                     }
                 }
             }
-            overlayAppsText.setText("" + installedApps + " apps installed out of " + totalApps);
+            overlayAppsText.setText(Html.fromHtml("<font color=\"#006400\">" + installedApps + "</font> apps installed out of <font color='#4aaeef'>" + totalApps + "</font>"), TextView.BufferType.SPANNABLE);
             float weightLeft = (1.0f * installedApps) / totalApps;
             if (weightLeft < 0.12f) {
                 weightLeft = 0.12f;

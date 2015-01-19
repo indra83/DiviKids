@@ -22,5 +22,7 @@
     <string name="category_appssetup">Apps Setup</string>
     <string name="category_session">Session</string>
     <string name="category_usage">Usage</string>
+    <string name="learn_label">Learn about categories</string>
+    <string name="appssetup_label">Setup Apps</string>
 
 </resources>
