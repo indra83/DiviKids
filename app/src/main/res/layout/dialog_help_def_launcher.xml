@@ -15,7 +15,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Set default launcher" />
+            android:text="Set Default Launcher" />
 
         <TextView
             android:id="@+id/desc"
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/title"
             android:layout_margin="@dimen/activity_horizontal_margin"
-            android:text="To enable locking, we need to remap your HOME key. Please select DiviKids and then 'Always' in the popup as shown in the screenshot below. This will be undone after session ends." />
+            android:text="To enable locking, we need to remap your HOME key. Please select 'DiviKids' and then 'Always' in the popup that follows.\n\n Don't worry, we'll restore defaults once session ends." />
 
         <ImageView
             android:id="@+id/help_image"
@@ -37,7 +37,7 @@
             android:background="#FFFFBB33"
             android:contentDescription="@string/app_name"
             android:scaleType="fitCenter"
-            android:src="@drawable/help_lollipop" />
+            android:src="@drawable/help_jellybean" />
 
         <Button
             android:id="@+id/gotit"
@@ -50,7 +50,7 @@
             android:layout_marginRight="4dp"
             android:layout_marginTop="4dp"
             android:background="@drawable/bg_button"
-            android:text="Ok"
+            android:text="Got it!"
             android:textColor="@android:color/white" />
 
         <Button

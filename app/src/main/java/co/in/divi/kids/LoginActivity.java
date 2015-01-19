@@ -305,7 +305,7 @@ public class LoginActivity extends Activity
                             groups[i] = loginResponse.groups[i].title;
                         }
                         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                        builder.setTitle("Choose group")
+                        builder.setTitle("Select Age-Group of your child")
                                 .setItems(groups, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         // on group selection, fetch content and set login & content

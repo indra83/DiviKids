@@ -137,7 +137,7 @@ public class LauncherActivity extends Activity implements SessionProvider.Sessio
             case R.id.action_exit:
                 final EditText pinText = new EditText(LauncherActivity.this);
                 pinText.setInputType(InputType.TYPE_CLASS_NUMBER);
-                new AlertDialog.Builder(LauncherActivity.this).setTitle("Enter PIN").setView(pinText).setPositiveButton("End Session", new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(LauncherActivity.this).setTitle("Enter Password").setView(pinText).setPositiveButton("End Session", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         try {

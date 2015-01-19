@@ -16,4 +16,14 @@
         android:stretchMode="spacingWidth"
         android:verticalSpacing="10dp"></GridView>
 
+    <TextView
+        android:id="@android:id/empty"
+        style="@style/no_apps_text"
+        android:layout_centerInParent="true"
+        android:text = "No apps found!\nPlease install from our list of curated, age appropriate apps."
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
 </RelativeLayout>

@@ -2,11 +2,11 @@
 "userId":null,
   "groups": [
     {
-      "title": "Toddlers",
+      "title": "Toddler (age 3-4 yrs)",
       "groupId": "toddler1"
     },
     {
-      "title": "Kindergarden",
+      "title": "Kindergarten (age 5-6 yrs)",
       "groupId": "kg1"
     }
   ]

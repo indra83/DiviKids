@@ -29,6 +29,7 @@ public class AppsFragment extends Fragment {
     private static final String TAG = AppsFragment.class.getSimpleName();
 
     private ViewGroup root;
+    private View emptyView;
     private GridView appsGrid;
 
     private AppsAdapter appsAdapter;
@@ -38,6 +39,7 @@ public class AppsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = (ViewGroup) inflater.inflate(R.layout.fragment_apps, container, false);
         appsGrid = (GridView) root.findViewById(R.id.apps);
+        emptyView = root.findViewById(android.R.id.empty);
         return root;
     }
 
@@ -64,6 +66,7 @@ public class AppsFragment extends Fragment {
                         .build());
             }
         });
+        appsGrid.setEmptyView(emptyView);
     }
 
     @Override

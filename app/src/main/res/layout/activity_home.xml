@@ -118,7 +118,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/duration_container"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="Unlock PIN" />
+            android:text="Set password for unlocking" />
 
         <EditText
             android:id="@+id/pin"
@@ -141,18 +141,28 @@
         android:padding="@dimen/activity_horizontal_margin">
 
         <TextView
-            android:id="@+id/title"
-            style="@style/home_setupapps_title"
+            android:id="@+id/title1"
+            style="@style/home_setupapps_title1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="Install Apps" />
 
+                <TextView
+            android:id="@+id/title2"
+            style="@style/home_setupapps_title2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+                    android:layout_below="@id/title1"
+            android:layout_centerHorizontal="true"
+            android:text="Install Apps" />
+
+
         <com.bluejamesbond.text.DocumentView
             android:id="@+id/desc"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/title"
+            android:layout_below="@id/title2"
             ext:documentView_hyphen="-"
             ext:documentView_textAlignment="justified"
             ext:documentView_textColor="@color/blue1"

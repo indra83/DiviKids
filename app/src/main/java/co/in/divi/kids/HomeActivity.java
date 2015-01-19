@@ -58,9 +58,10 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
     private static final String TAG = HomeActivity.class.getSimpleName();
 
     private View setupOverlay, overlayProgressActual, overlayProgressInverse;
-    private TextView overlayAppsText, overlayAppsLeft;
+    private TextView overlayAppsText, overlayAppsLeft, overlayTitle1, overlayTitle2, overlaySummary;
     private View overlayAppsSetupButton;
     private Button overlayNextButton;
+    private DocumentView documentView;
 
     private TextView setupText, durationText, appsSetupButton;
     private ImageView startButton;
@@ -114,12 +115,14 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
         overlayProgressInverse = findViewById(R.id.overlay_apps_progress_inverse);
         overlayAppsText = (TextView) findViewById(R.id.apps_installed_text);
         overlayAppsLeft = (TextView) findViewById(R.id.remaining_text);
+        overlayTitle1 = (TextView) findViewById(R.id.title1);
+        overlayTitle2 = (TextView) findViewById(R.id.title2);
         overlayAppsSetupButton = findViewById(R.id.overlay_setup_apps);
         overlayNextButton = (Button) findViewById(R.id.next);
 
-        DocumentView documentView = (DocumentView) findViewById(R.id.desc); //new DocumentView(this, DocumentView.PLAIN_TEXT);  // Support plain text
+        documentView = (DocumentView) findViewById(R.id.desc); //new DocumentView(this, DocumentView.PLAIN_TEXT);  // Support plain text
         documentView.getDocumentLayoutParams().setTextAlignment(TextAlignment.JUSTIFIED);
-        documentView.setText("Welcome to Divi Kids! \nPlease setup as many apps possible from our list of curated apps for all round development of your child.");
+//        documentView.setText("Welcome to Divi Kids! \nPlease setup as many apps possible from our list of curated apps for all round development of your child.");
 
         overlayNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -391,7 +394,7 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
                 selectedItem = 2;
                 break;
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(this).setTitle("Selection type").setSingleChoiceItems(new String[]{"Random", "Pick category", "Focus on 1 app"}, selectedItem, new DialogInterface.OnClickListener() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this).setTitle("Content selection").setSingleChoiceItems(new String[]{"Shuffle", "Pick category", "Focus on 1 app"}, selectedItem, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 switch (i) {
@@ -732,6 +735,16 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
             overlayProgressActual.setLayoutParams(lp2);
             overlayProgressInverse.setLayoutParams(lp);
 
+            if (installedApps > 3) {
+                overlayTitle1.setText("Add more apps!");
+                overlayTitle2.setVisibility(View.GONE);
+                documentView.setText("Choose from a large list of curated, age appropriate content for your kids.");
+            } else {
+                overlayTitle1.setText("Prep up!");
+                overlayTitle2.setVisibility(View.VISIBLE);
+                overlayTitle2.setText("Turn your device into a safe learning environment.");
+                documentView.setText("Begin by installing from a large selection of curated apps, organized by learning goals.");
+            }
             // session screen
             setupText.setText("Apps installed " + installedApps + " of " + totalApps);
             appsSetupButton.setEnabled(true);
