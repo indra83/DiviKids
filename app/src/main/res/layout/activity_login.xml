@@ -35,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:gravity="center"
                 android:layout_height="wrap_content"
-                android:text="Lock n Learn \n Toddlers"
+                android:text="@string/app_name"
                 android:textColor="@android:color/white"
                 android:textSize="23sp" />
         </LinearLayout>

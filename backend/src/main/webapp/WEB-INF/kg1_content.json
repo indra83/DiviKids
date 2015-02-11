@@ -1,0 +1,567 @@
+{
+  "title":"Early Learning Goals",
+  "summary":"Early Years Foundation is an established international framework that acts as a guide to design & assess child development programs. Early years learning concentrates on Six Key Learning Areas as shown below. Each learning area is further divided into a set of goals – leading to a total of 17 Early Learning Goals.",
+  "versionCode": 1,
+  "versionString": "v 0.1",
+  "categories": [
+    {
+      "id": "1",
+      "name": "Personal, Social & Emotional Development",
+      "shortDesc": "  ",
+      "longDesc": "This involves helping build children's confidence in their own abilities and encouraging them to develop healthy relationships with others. Showing them how to manage their feelings, develop their social skills and respond to rules are an important step in helping them to do this independently. ",
+      "subCategories": [
+        {
+          "id": "1",
+          "name": "Making Relationships ",
+          "desc": "Children play co-operatively, taking turns with others.They take account of one another’s ideas about how to organise their activity. They show sensitivity to other's needs and feelings, and form positive relationships with adults and other children. ",
+          "apps": [
+            {
+              "packageName": "com.appteri.goomanners",
+              "name": "Good Manners"
+            },
+            {
+              "packageName": "com.asman.goodmanners",
+              "name": "Good Manners for kids"
+            },
+            {
+              "packageName": "com.ilmasoft.manners",
+              "name": "Manners for kids"
+            },
+            {
+              "packageName": "com.hbg.Kidseducationalgames.mannersflashcards",
+              "name": "Kids Manners Flash Cards"
+            },
+            {
+              "packageName": "com.storybook.collection.moralstories",
+              "name": "Moral Stories"
+            }
+          ],
+          "videos": [
+            {
+              "youtubeId": "UUoookXUzPciGrEZEXmh4Jjg",
+              "name": "Sesame Street: Let's Be Friends"
+            },
+            {
+              "youtubeId": "zEk48QQSPo4",
+              "name": "Learn Emotions!"
+            },
+            {
+              "youtubeId": "91Yq5sZipiE",
+              "name": "Learn Good Manners - Educational Videos For Kids"
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "name": "Self Confidence & Awareness ",
+          "desc": "Children are confident to try new activities, and say why they like some activities more than others. They are confident to speak in a familiar group, will talk about their ideas, and will choose the resources they need for their chosen activities. They say when they do or don’t need help.",
+          "apps": [
+            {
+              "packageName": "com.hedgehogacademy.hedgehogsadventureslite",
+              "name": "Hedgehog Adventures"
+            },
+            {
+              "packageName": "com.intellijoy.tellingtime.lite",
+              "name": "Kids Telling Time"
+            }
+          ],
+          "videos": [
+            {
+              "youtubeId": "d5kW4pI_VQw",
+              "name": "Child Focus 'E-safety'"
+            },
+            {
+              "youtubeId": "uPahaW6VDek",
+              "name": "Road Safe - Good Habits And Manners - Pre School - Animation Videos For Kids"
+            }
+          ]
+        },
+        {
+          "id": "3",
+          "name": "Managing Feelings & Behavior",
+          "desc": "Children talk about how they and others show feelings, talk about their own and other's behaviour, and its consequences, and know that some behaviour is unacceptable. They work as part of a group or class, and understand and follow the rules. They adjust their behaviour to different situations, and take changes of routine in their stride.",
+          "apps": [
+            {
+              "packageName": "com.kidokoinside.kidokoemotionsfree",
+              "name": "Kidoko My Emotions"
+            }
+          ],
+          "videos": [
+            {
+              "youtubeId": "tShVolofZ_4",
+              "name": "Sharing - Little Mandy Manners sings a fun song for children to learn how to share!"
+            },
+            {
+              "youtubeId": "ZgidfFs-j4M",
+              "name": "Respect Song"
+            },
+            {
+              "youtubeId": "LpGAY5tFoqw",
+              "name": "Behaving Properly - Sing along with Little Mandy Manners About Proper Behavior on TinyGrads!"
+            },
+            {
+              "youtubeId": "P44jq-EgpdQ",
+              "name": "Im sorry"
+            },
+            {
+              "youtubeId": "kOrC64u_Qjc",
+              "name": "Please and Thank You with Little Mandy Manners. TinyGrads Kids Videos"
+            },
+            {
+              "youtubeId": "Jp5gAJK5flg",
+              "name": "Putting Things Away - Sing Along with Little Mandy Manners about being Clean!"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Communication, Language & Literacy",
+      "shortDesc": "",
+      "longDesc": "It is vital that children are given time to have their own conversations and building up a wide vocabulary of words. By showing children how to talk and when to listen they are helped in every other area of the curriculum . ",
+      "subCategories": [
+        {
+          "id": "1",
+          "name": "Listening & Attention",
+          "desc": "Children listen attentively in a range of situations. They listen to stories, accurately anticipating key events and respond to what they hear with relevant comments, questions or actions. They give their attention to what others say and respond appropriately, while engaged in another activity. ",
+          "apps": [
+            {
+              "packageName": "com.memory.activity",
+              "name": "Memori for Kids"
+            },
+            {
+              "packageName": "air.OttothedogSpain",
+              "name": "Otto the Dog"
+            },
+            {
+              "packageName": "com.tabtale.fourseasons.google",
+              "name": "Kids Seasons story"
+            }
+          ],
+          "videos": [
+            {}
+          ]
+        },
+        {
+          "id": "2",
+          "name": "Understanding ",
+          "desc": "Children follow instructions involving several ideas or actions. They answer ‘how’ and ‘why’ questions about their experiences and in response to stories or events. ",
+          "apps": [
+            {
+              "packageName": "com.hedgehogacademy.logicspatialintelligencelite",
+              "name": "Logic for Kids"
+            }
+          ],
+          "videos": [
+            {}
+          ]
+        },
+        {
+          "id": "3",
+          "name": "Speaking ",
+          "desc": "Children express themselves effectively, showing awareness of listeners’ needs. They use past, present and future forms accurately when talking about events that have happened or are to happen in the future. They develop their own narratives and explanations by connecting ideas or events.",
+          "apps": [
+            {
+              "packageName": "com.hedgehogacademy.sequencesfree",
+              "name": "Train Speech"
+            },
+            {
+              "packageName": "com.nimbleminds.everydaywordsfree",
+              "name": "Words for Kids"
+            }
+          ],
+          "videos": [
+            {
+              "youtubeId": "LZbD4-usGm0",
+              "name": "English for Kids ESL Kids Lessons Jobs What do you do"
+            }
+          ]
+        },
+        {
+          "id": "4",
+          "name": "Reading",
+          "desc": " Children read and understand simple sentences. They use phonic knowledge to decode regular words and read them aloud accurately. They also read some common irregular words. They demonstrate understanding when talking with others about what they have read.",
+          "apps": [
+            {
+              "packageName": "com.interactive8.readmestories.learntoread",
+              "name": "Read Me"
+            },
+            {
+              "packageName": "com.barebonesapps.sentencebuilderlite",
+              "name": "Sentence Builder Lite"
+            }
+          ],
+          "videos": [
+            {
+              "youtubeId": "cmlvbaRe3q0",
+              "name": "Brown Bear, Brown Bear, What Do You See - Read Aloud Story"
+            },
+            {
+              "youtubeId": "V1Q8etyyhYo",
+              "name": "NEW First 100 High Frequency Words with Voice, Music, and Surprise Guests"
+            },
+            {
+              "youtubeId": "9QFrTET9Rxo",
+              "name": "Sight Words that TEACH"
+            }
+          ]
+        },
+        {
+          "id": "5",
+          "name": "Writing",
+          "desc": "Children use their phonic knowledge to write words in ways which match their spoken sounds. They also write some irregular common words. They write simple sentences which can be read by themselves and others. Some words are spelt correctly and others are phonetically plausible.",
+          "apps": [
+            {
+              "packageName": "com.teachersparadise.kidshandwriting1hwt",
+              "name": "Kids Handwriting 1"
+            },
+            {
+              "packageName": "com.tsunamiapps.handwriting",
+              "name": "Handwriting for kids"
+            }
+          ],
+          "videos": [
+            {
+              "youtubeId": "WC7xwWUfwxA",
+              "name": "Farm Animals - Pre School - Learn English Words (Spelling) Video For Kids and Toddlers"
+            },
+            {
+              "youtubeId": "ydJDUjRFDjc",
+              "name": "Universe - Pre School - Learn English Words (Spelling) Video For Kids and Toddlers"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Problem Solving, Reasoning, Numeracy",
+      "shortDesc": "  ",
+      "longDesc": "This involves helping children understand the value of numbers by giving them various counting and problem solving activities. Children are encouraged to build and describe shapes as well as objects to improve their mathematical vocabulary ",
+      "subCategories": [
+        {
+          "id": "1",
+          "name": "Numbers",
+          "desc": "Children count reliably with numbers from one to 20, place them in order and say which number is one more or one less than a given number. Using quantities and objects, they add and subtract two single-digit numbers and count on or back to find the answer. They solve problems, including doubling, halving and sharing. ",
+          "apps": [
+            {
+              "packageName": "com.tharsoft.fruitshot.free",
+              "name": "Kids Fruit Shots"
+            },
+            {
+              "packageName": "zok.android.numbers",
+              "name": "Kids Numbers & Math"
+            },
+            {
+              "packageName": "com.cosaaranda.numbergames.doublenumber",
+              "name": "Number Games: Double Number"
+            },
+            {
+              "packageName": "air.com.classteacher.main",
+              "name": "Kids Math Count"
+            }
+          ],
+          "videos": [
+            {
+              "youtubeId": "e0dJWfQHF8Y",
+              "name": "The Big Numbers Song"
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "name": "Shapes, Space, Measure",
+          "desc": " Children use everyday language to talk about size, weight, capacity, position, distance, time and money to compare quantities and objects and to solve problems. They recognize, create and describe patterns. They explore characteristics of everyday objects and shapes and use mathematical language to describe them.",
+          "apps": [
+            {
+              "packageName": "com.whisperarts.kids.forms",
+              "name": "Learn forms, figures, shapes"
+            }
+          ],
+          "videos": [
+            {
+              "youtubeId": "wCkv_aoC7M8&list=PL-OlJZ2hunTIq-hmT6wdVGA6XbPxkb-Ge",
+              "name": "Measurement | PBS Kids & Ozomatli"
+            },
+            {
+              "youtubeId": "IkZs2_1-YJU&list=PL2DUsAW9EE2_iNjkjG_o4-5j17Jg4M1bJ&index=3",
+              "name": "The Shapes Song (HD)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Understanding the World",
+      "shortDesc": "  ",
+      "longDesc": "This involves giving children access to a variety of people, places and experiences so they can understand their physical world. By giving them access to independently explore aspects of their environment and technology they gain a greater understanding. ",
+      "subCategories": [
+        {
+          "id": "1",
+          "name": "People & Communities",
+          "desc": "Children talk about past and present events in their own lives and in the lives of family members. They know that other children don’t always enjoy the same things, and are sensitive to this. They know about similarities and differences between themselves and others, and among families, communities and traditions.",
+          "apps": [
+            {
+              "packageName": "com.gameimax.kidsbirthdayparty",
+              "name": "Kids Birthday "
+            },
+            {
+              "packageName": "com.sinyee.babybus.familytree",
+              "name": "Family Tree"
+            }
+          ],
+          "videos": [
+            {
+              "youtubeId": "mw6RBvUmayA",
+              "name": "People in Our Community - Teaches Jobs & Occupations"
+            },
+            {
+              "youtubeId": "ZnKvzdmOmO4&spfreload=10",
+              "name": "People & Occupation-Kids Learning Videos"
+            },
+            {
+              "youtubeId": "Kc2j79nR06Q",
+              "name": "Common Festivals - English Animation Video for Kids"
+            },
+            {
+              "youtubeId": "5P-89FdwlGc",
+              "name": "Can you help me? - Sure, I can. - English song for Kids - Let's sing (Listen and Repeat)"
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "name": "The World",
+          "desc": " Children know about similarities and differences in relation to places, objects, materials and living things. They talk about the features of their own immediate environment and how environments might vary from one another. They make observations of animals and plants and explain why some things occur, and talk about changes.",
+          "apps": [
+            {
+              "packageName": "com.dog_ice.android.kakurenbo",
+              "name": "Hide & Seek with Animals"
+            },
+            {
+              "packageName": "com.monois.android.eduapp11",
+              "name": "Great Ant Adventure"
+            },
+            {
+              "packageName": "com.gameimax.kidsgardenmakeover",
+              "name": "Garden Makeover"
+            }
+          ],
+          "videos": [
+            {
+              "youtubeId": "CTbswd1Q3-o",
+              "name": "Green Grass Grows All Around - Children's Song with Lyrics - Kids Songs by The Learning Station"
+            },
+            {
+              "youtubeId": "Cbei3VZjZ48",
+              "name": "Planet Song"
+            }
+          ]
+        },
+        {
+          "id": "3",
+          "name": "Technology",
+          "desc": "Children recognize that a range of technology is used in places such as homes and schools. They select and use technology for particular purposes.",
+          "apps": [
+            {
+              "packageName": "com.whisperarts.kids.journal.demo0004",
+              "name": "Household appliances"
+            },
+            {
+              "packageName": "com.iabuzz.Puzzle4KidsKitchen",
+              "name": "Kids Puzzle – learning kitchen"
+            },
+            {
+              "packageName": "com.iabuzz.TDPuzzleBlocksFurniture",
+              "name": "Furniture – Kids puzzle blocks"
+            },
+            {
+              "packageName": "com.iabuzz.TDPuzzleBlocksTools",
+              "name": "Tool Blocks"
+            },
+            {
+              "packageName": "com.iabuzz.Puzzle4KidsVehicles",
+              "name": "Cars & vehicles puzzle"
+            }
+          ],
+          "videos": [
+            {
+              "youtubeId": "xj0Rexxx8-g",
+              "name": "Learn Transport Vehicles for children - 3D Animation English preschool Nursery rhymes"
+            },
+            {
+              "youtubeId": "_K1zTl0S-aY",
+              "name": "Fun, Fun, Fun with Smart Reader Kids - Let's Get Techie!"
+            },
+            {
+              "youtubeId": "1zUCx5UlU40",
+              "name": "Learn Home Appliance Train - learning home appliances for kids"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "name": "Physical Development",
+      "shortDesc": "  ",
+      "longDesc": "This involves encouraging children to develop their co-ordination and movement on different apparatus as well as improving of their fine motor skills through using tools such as pencils for writing. Children also should be helped to identify healthier choices and understand the importance of a balanced lifestyle. ",
+      "subCategories": [
+        {
+          "id": "1",
+          "name": "Moving & Handling ",
+          "desc": "Children show good control and co-ordination in large and small movements. They move confidently in a range of ways, safely negotiating space. They handle equipment and tools effectively, including pencils for writing.",
+          "apps": [
+            {
+              "packageName": "com.jin.games.tangram",
+              "name": "Tangram HD"
+            },
+            {
+              "packageName": "com.sinyee.babybus.spell",
+              "name": "Creative Tangram"
+            },
+            {
+              "packageName": "com.parkingschool.free",
+              "name": "Parking School"
+            }
+          ],
+          "videos": [
+            {
+              "youtubeId": "OwRmivbNgQk",
+              "name": "Let's Go To The Zoo | Animal Song for Kids"
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "name": "Health & Selfcare",
+          "desc": " Children know the importance for good health of physical exercise, and a healthy diet, and talk about ways to keep healthy and safe. They manage their own basic hygiene and personal needs successfully, including dressing and going to the toilet independently.",
+          "apps": [
+            {
+              "packageName": "air.com.cocosapps.Kindergartenschooldoctor",
+              "name": "KG School Doctor"
+            },
+            {
+              "packageName": "com.gameimax.KidsGym",
+              "name": "Kids Gym Doctor"
+            },
+            {
+              "packageName": "com.sinyee.babybus.travelsafety",
+              "name": "Travel Safety"
+            },
+            {
+              "packageName": "jp.cleanup.android",
+              "name": "Lets clean up!"
+            }
+          ],
+          "videos": [
+            {
+              "youtubeId": "-xEoRcRmFqs",
+              "name": "Clean Up is Fun - Children's Cleaning Song - Kids Songs by The Learning Station"
+            },
+            {
+              "youtubeId": "7zc55KYLN28",
+              "name": "It's Time to Clean Up! (clean up song for kids)"
+            },
+            {
+              "youtubeId": "cZ60zhvMlGk",
+              "name": "Children's Song Healthy Food Will Make you Smile! with Animation and Sing Along Lyrics!"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "name": "Creative Development",
+      "shortDesc": "  ",
+      "longDesc": "Children are given opportunities to create with a variety of materials, use and select their own tools to allow them to do so.They are encouraged to discuss their work and share their ideas through role play, design and technology, art, music and dance.",
+      "subCategories": [
+        {
+          "id": "1",
+          "name": "Exploring & using media and materials ",
+          "desc": "Children sing songs, make music and dance, and experiment with ways of changing them. They safely use and explore a variety of materials, tools and techniques, experimenting with colour, design, texture, form and function.",
+          "apps": [
+            {
+              "packageName": "com.DoodleScratch",
+              "name": "Doodle Scratch"
+            },
+            {
+              "packageName": "com.hsmobile.kidpainter",
+              "name": "Kids Coloring & Painting"
+            }
+          ],
+          "videos": [
+            {
+              "youtubeId": "lK6C-XjD_dQ",
+              "name": "MATERIALS SONG"
+            },
+            {
+              "youtubeId": "taoCF1cKZSY",
+              "name": "Kids Learn Clothing Vocabulary (phrases 1)"
+            },
+            {
+              "youtubeId": "BaKcwU1lt3c",
+              "name": "VIDS for KIDS in 3d (HD) - Funny Tools for Children Cartoon, Learn and have FUN - AApV"
+            },
+            {
+              "youtubeId": "No_ADOZ1jl4",
+              "name": "Textures Song for kids by Patty Shukla - Animated Cartoon Version"
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "name": "Being Imaginative ",
+          "desc": "  Children use what they have learnt about media and materials in original ways, thinking about uses and purposes. They represent their own ideas, thoughts and feelings through design and technology, art, music, dance, role play and stories.",
+          "apps": [
+            {
+              "packageName": "com.coloring.toddlers",
+              "name": "Painting and Drawing"
+            },
+            {
+              "packageName": "com.hachiko.kidsmakemusiclite",
+              "name": "Kids Make Music"
+            },
+            {
+              "packageName": "com.ohnineline.sas.kids",
+              "name": "Sketch a Song"
+            },
+            {
+              "packageName": "com.educastudio.marbelmusik",
+              "name": "Marbel Music for Kids"
+            },
+            {
+              "packageName": "com.fashion.dress.design.salon",
+              "name": "Dress up and Design Salon"
+            },
+            {
+              "packageName": "com.msidi.clayTransformations",
+              "name": "Clay Transformations"
+            }
+          ],
+          "videos": [
+            {
+              "youtubeId": "uMKNJwYnOOo",
+              "name": "Play doh Scoops 'n Treats DIY Ice Cream Cones, Popsicles, Sundaes, Waffles Play Dough Desserts"
+            },
+            {
+              "youtubeId": "6Cx7CmjmeaA",
+              "name": "How to Draw a Cartoon Fish Easy Kids Art Lesson Tutorial"
+            },
+            {
+              "youtubeId": "XI5mSTtSRz0",
+              "name": "Play-Doh Rainbow Licorice"
+            },
+            {
+              "youtubeId": "rY9zjr9T_WI",
+              "name": "TuTiTu Ice Cream"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

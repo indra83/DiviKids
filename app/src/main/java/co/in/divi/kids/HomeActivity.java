@@ -476,8 +476,8 @@ public class HomeActivity extends Activity implements SessionProvider.SessionCha
             Intent startMain = new Intent(this, IntermediateActivity.class);
             startActivity(startMain);
             finish();
-        }
-        Util.disableLauncher(this);
+        }else
+            Util.disableLauncher(this);
     }
 
     @Override

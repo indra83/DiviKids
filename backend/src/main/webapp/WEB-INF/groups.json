@@ -3,11 +3,11 @@
   "groups": [
     {
       "title": "Toddler (age 3-4 yrs)",
-      "groupId": "toddler1"
+      "id": "toddler1"
     },
     {
       "title": "Kindergarten (age 5-6 yrs)",
-      "groupId": "kg1"
+      "id": "kg1"
     }
   ]
 }

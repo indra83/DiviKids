@@ -8,6 +8,7 @@ android {
         applicationId "co.in.divi.kids"
         minSdkVersion 14
         targetSdkVersion 19
+        maxSdkVersion 20
         versionCode 1
         versionName "1.0"
     }

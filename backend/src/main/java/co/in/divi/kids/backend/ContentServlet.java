@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  * Created by Indra on 1/1/2015.
  */
 public class ContentServlet extends HttpServlet {
-        @Override
+    @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
         resp.setContentType("text/plain");
@@ -47,7 +47,12 @@ public class ContentServlet extends HttpServlet {
         RequestModel reqModel = new Gson().fromJson(res.toString(), RequestModel.class);
         resp.setContentType("text/json");
         resp.getWriter().println("");
-        BufferedReader br = new BufferedReader(new InputStreamReader(getServletContext().getResourceAsStream("/WEB-INF/content.json"), "UTF-8"));
+        BufferedReader br;
+        if (reqModel.groupId.equalsIgnoreCase("toddler1")) {
+            br = new BufferedReader(new InputStreamReader(getServletContext().getResourceAsStream("/WEB-INF/toddler_content.json"), "UTF-8"));
+        } else {
+            br = new BufferedReader(new InputStreamReader(getServletContext().getResourceAsStream("/WEB-INF/kg1_content.json"), "UTF-8"));
+        }
         String line2;
         while ((line2 = br.readLine()) != null) {
             resp.getWriter().println(line2);

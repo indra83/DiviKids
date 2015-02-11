@@ -95,6 +95,5 @@ public class YouTubePlayerActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        finish();
     }
 }
